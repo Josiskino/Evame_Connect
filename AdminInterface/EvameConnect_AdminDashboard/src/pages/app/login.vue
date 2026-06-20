@@ -83,11 +83,8 @@ const onSubmit = () => {
         <VCardItem class="justify-center">
           <VCardTitle>
             <RouterLink to="/">
-              <div class="app-logo">
+              <div class="app-logo justify-center">
                 <VNodeRenderer :nodes="themeConfig.app.logo" />
-                <h1 class="app-logo-title">
-                  {{ themeConfig.app.title }}
-                </h1>
               </div>
             </RouterLink>
           </VCardTitle>

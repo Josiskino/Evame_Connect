@@ -35,7 +35,7 @@ const initMap = () => {
       title: hospital.name,
       icon: {
         path: window.google.maps.SymbolPath.CIRCLE,
-        fillColor: '#4CAF50',
+        fillColor: '#E53935',
         fillOpacity: 1,
         strokeColor: '#ffffff',
         strokeWeight: 2,

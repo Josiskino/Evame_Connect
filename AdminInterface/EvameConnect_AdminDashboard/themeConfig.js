@@ -8,7 +8,7 @@ import { AppContentLayoutNav, ContentWidth, FooterType, NavbarType } from '@layo
 export const { themeConfig, layoutConfig } = defineThemeConfig({
   app: {
     title: 'Evame Connect',
-    logo: h(VIcon, { icon: 'tabler-motorbike', color: 'primary', size: 30 }),
+    logo: h('img', { src: '/logo-evame.png', alt: 'Evame Connect', style: 'height: 38px; width: auto;' }),
     contentWidth: ContentWidth.Boxed,
     contentLayoutNav: AppContentLayoutNav.Vertical,
     overlayNavFromBreakpoint: breakpointsVuetifyV3.lg - 1, // 1 for matching with vuetify breakpoint. Docs: https://next.vuetifyjs.com/en/features/display-and-platform/
