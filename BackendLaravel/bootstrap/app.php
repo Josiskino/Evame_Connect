@@ -18,6 +18,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Derrière le reverse proxy Caddy : faire confiance aux en-têtes
+        // X-Forwarded-* (notamment Proto=https) pour générer des URLs https.
+        $middleware->trustProxies(at: '*');
+
         // Middlewares RBAC fournis par Spatie laravel-permission
         $middleware->alias([
             'role' => RoleMiddleware::class,
