@@ -78,7 +78,7 @@ const chartOptions = computed(() => {
   const gridColor = `${base}1f` // ~12 % d'opacité
 
   return {
-    chart: { type: 'line', toolbar: { show: false }, stacked: false, foreColor: labelColor },
+    chart: { type: 'line', toolbar: { show: false }, stacked: false, foreColor: labelColor, background: 'transparent' },
     theme: { mode: isDark ? 'dark' : 'light' },
     colors: [theme.primary, theme.info],
     stroke: { width: [0, 3], curve: 'smooth' },

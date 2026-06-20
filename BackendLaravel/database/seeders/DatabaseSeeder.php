@@ -60,19 +60,13 @@ class DatabaseSeeder extends Seeder
         // Quelques commerciaux supplémentaires pour le volume
         User::factory(2)->create()->each(fn (User $u) => $u->assignRole(User::ROLE_COMMERCIAL));
 
-        // --- 2. Catalogue motos -------------------------------------------
-        $evame125 = Moto::create([
-            'modele' => 'EVAME 125 CC',
-            'couleur' => 'Rouge',
-            'cylindree' => '125 CC',
-            'prix' => 360_000,
-            'stock' => 8,
-            'seuil_alerte' => 3,
-        ]);
+        // --- 2. Catalogue motos (vrai catalogue Haojue) -------------------
+        $this->call(MotoCatalogueSeeder::class);
 
-        Moto::factory(10)->create();          // catalogue varié
-        Moto::factory(2)->stockFaible()->create();  // alertes stock faible
-        Moto::factory(1)->rupture()->create();      // rupture
+        // Moto 125 pour le contrat « scénario » KOFFI ; on garantit un stock suffisant.
+        $moto125 = Moto::where('classe_cc', '125CC')->inRandomOrder()->first()
+            ?? Moto::inRandomOrder()->firstOrFail();
+        $moto125->update(['stock' => max(8, $moto125->stock)]);
 
         // --- 3. Clients ---------------------------------------------------
         $koffi = Client::create([
@@ -92,7 +86,7 @@ class DatabaseSeeder extends Seeder
         // Débuté il y a 100 jours -> attendu = 200 000 ; payé = 200 000 -> à jour ; progression 56 %.
         $venteLeasing = Vente::create([
             'client_id' => $koffi->id,
-            'moto_id' => $evame125->id,
+            'moto_id' => $moto125->id,
             'user_id' => $commercial->id,
             'mode' => Vente::MODE_LEASING,
             'montant' => 360_000,
@@ -102,7 +96,7 @@ class DatabaseSeeder extends Seeder
 
         $contratKoffi = ContratLeasing::create([
             'client_id' => $koffi->id,
-            'moto_id' => $evame125->id,
+            'moto_id' => $moto125->id,
             'vente_id' => $venteLeasing->id,
             'date_debut' => Carbon::today()->subDays(100)->format('Y-m-d'),
             'duree_jours' => 180,
@@ -128,7 +122,7 @@ class DatabaseSeeder extends Seeder
 
         // Un contrat « en retard » pour la démo du tableau de bord
         $clientRetard = Client::factory()->create(['nom' => 'AGBO Komla']);
-        $motoRetard = Moto::factory()->create();
+        $motoRetard = Moto::where('id', '!=', $moto125->id)->inRandomOrder()->first() ?? $moto125;
         $contratRetard = ContratLeasing::create([
             'client_id' => $clientRetard->id,
             'moto_id' => $motoRetard->id,

@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['modele', 'couleur', 'cylindree', 'prix', 'image_url', 'stock', 'seuil_alerte'])]
+#[Fillable([
+    'slug', 'modele', 'famille', 'classe_cc', 'couleur', 'cylindree', 'puissance', 'couple',
+    'prix', 'image_url', 'images', 'couleurs', 'specifications', 'source_url', 'stock', 'seuil_alerte',
+])]
 class Moto extends Model
 {
     /** @use HasFactory<\Database\Factories\MotoFactory> */
@@ -21,6 +24,9 @@ class Moto extends Model
             'prix' => 'integer',
             'stock' => 'integer',
             'seuil_alerte' => 'integer',
+            'images' => 'array',
+            'couleurs' => 'array',
+            'specifications' => 'array',
         ];
     }
 

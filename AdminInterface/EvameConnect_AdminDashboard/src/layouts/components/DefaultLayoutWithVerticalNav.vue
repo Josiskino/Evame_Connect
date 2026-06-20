@@ -4,7 +4,6 @@ import { useSidebarCountsStore } from '@/stores/sidebar-counts'
 import { themeConfig } from '@themeConfig'
 
 // Components
-import AiAssistantDrawer from '@/layouts/components/AiAssistantDrawer.vue'
 import Footer from '@/layouts/components/Footer.vue'
 import NavBarNotifications from '@/layouts/components/NavBarNotifications.vue'
 import NavSearchBar from '@/layouts/components/NavSearchBar.vue'
@@ -69,7 +68,6 @@ const navItems = computed(() => staticNavItems.map(item => {
           :languages="themeConfig.app.i18n.langConfig"
         />
         <NavbarThemeSwitcher />
-        <AiAssistantDrawer class="me-1" />
         <NavBarNotifications class="me-1" />
         <UserProfile />
       </div>
@@ -82,8 +80,5 @@ const navItems = computed(() => staticNavItems.map(item => {
     <template #footer>
       <Footer />
     </template>
-
-    <!-- 👉 Customizer -->
-    <TheCustomizer />
   </VerticalNavLayout>
 </template>

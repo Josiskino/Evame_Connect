@@ -14,7 +14,7 @@ class MotoController extends Controller
 {
     public function index(Request $request, ListMotosAction $action): JsonResponse
     {
-        $filters = $request->only(['search', 'couleur', 'disponible', 'prix_max']);
+        $filters = $request->only(['search', 'couleur', 'disponible', 'prix_max', 'famille', 'classe_cc']);
         $motos = $action->execute($filters, $request->integer('per_page', 15));
 
         return ApiResponse::success(MotoResource::collection($motos));

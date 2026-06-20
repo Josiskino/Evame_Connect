@@ -25,6 +25,14 @@ class EloquentMotoRepository implements MotoRepositoryInterface
             $query->where('couleur', $filters['couleur']);
         }
 
+        if (! empty($filters['famille'])) {
+            $query->where('famille', $filters['famille']);
+        }
+
+        if (! empty($filters['classe_cc'])) {
+            $query->where('classe_cc', $filters['classe_cc']);
+        }
+
         if (! empty($filters['disponible'])) {
             $query->where('stock', '>', 0);
         }
