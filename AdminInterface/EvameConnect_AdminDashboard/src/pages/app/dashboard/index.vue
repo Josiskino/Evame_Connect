@@ -67,23 +67,45 @@ const chartSeries = computed(() => {
 })
 
 const chartOptions = computed(() => {
-  const theme = vuetifyTheme.current.value.colors
+  const current = vuetifyTheme.current.value
+  const theme = current.colors
+  const isDark = current.dark
   const evo = dash.value?.activite_commerciale?.evolution_mensuelle ?? []
 
+  // Couleurs de texte/grille dérivées du thème (lisibles en clair ET en sombre)
+  const base = theme['on-surface'] || (isDark ? '#E7E3FC' : '#2E263D')
+  const labelColor = `${base}b3` // ~70 % d'opacité
+  const gridColor = `${base}1f` // ~12 % d'opacité
+
   return {
-    chart: { type: 'line', toolbar: { show: false }, stacked: false },
+    chart: { type: 'line', toolbar: { show: false }, stacked: false, foreColor: labelColor },
+    theme: { mode: isDark ? 'dark' : 'light' },
     colors: [theme.primary, theme.info],
     stroke: { width: [0, 3], curve: 'smooth' },
     plotOptions: { bar: { borderRadius: 6, columnWidth: '40%' } },
     dataLabels: { enabled: false },
-    legend: { position: 'top' },
-    grid: { strokeDashArray: 6, borderColor: theme['on-surface'] ? `${theme['on-surface']}1f` : '#e0e0e0' },
-    xaxis: { categories: evo.map(e => fmtMonth(e.mois)) },
+    legend: { position: 'top', labels: { colors: labelColor } },
+    grid: { strokeDashArray: 6, borderColor: gridColor },
+    xaxis: {
+      categories: evo.map(e => fmtMonth(e.mois)),
+      labels: { style: { colors: labelColor } },
+      axisBorder: { color: gridColor },
+      axisTicks: { color: gridColor },
+    },
     yaxis: [
-      { title: { text: 'FCFA' }, labels: { formatter: v => new Intl.NumberFormat('fr-FR', { notation: 'compact' }).format(v) } },
-      { opposite: true, title: { text: 'Ventes' }, min: 0 },
+      {
+        title: { text: 'FCFA', style: { color: labelColor } },
+        labels: { style: { colors: labelColor }, formatter: v => new Intl.NumberFormat('fr-FR', { notation: 'compact' }).format(v) },
+      },
+      {
+        opposite: true,
+        min: 0,
+        title: { text: 'Ventes', style: { color: labelColor } },
+        labels: { style: { colors: labelColor } },
+      },
     ],
     tooltip: {
+      theme: isDark ? 'dark' : 'light',
       y: {
         formatter: (val, { seriesIndex }) => (seriesIndex === 0 ? fmtMoney(val) : `${val} vente(s)`),
       },
