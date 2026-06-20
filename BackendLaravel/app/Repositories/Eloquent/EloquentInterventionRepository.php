@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Repositories\Eloquent;
+
+use App\Models\Commentaire;
+use App\Models\Intervention;
+use App\Repositories\Contracts\InterventionRepositoryInterface;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
+
+class EloquentInterventionRepository implements InterventionRepositoryInterface
+{
+    public function list(array $filters, ?int $technicienId = null): Collection
+    {
+        $query = Intervention::with(['client', 'moto', 'technicien']);
+
+        if (($filters['date'] ?? null) === 'today') {
+            $query->whereDate('date_intervention', Carbon::today());
+        }
+
+        if (! empty($filters['statut'])) {
+            $query->where('statut', $filters['statut']);
+        }
+
+        if ($technicienId !== null) {
+            $query->where('technicien_id', $technicienId);
+        }
+
+        return $query->latest('date_intervention')->get();
+    }
+
+    public function create(array $data): Intervention
+    {
+        return Intervention::create($data);
+    }
+
+    public function find(int $id): ?Intervention
+    {
+        return Intervention::with(['client', 'moto', 'technicien', 'commentaires.user'])->find($id);
+    }
+
+    public function update(Intervention $intervention, array $data): Intervention
+    {
+        $intervention->update($data);
+
+        return $intervention->load(['client', 'moto', 'technicien', 'commentaires.user']);
+    }
+
+    public function addCommentaire(Intervention $intervention, array $data): Commentaire
+    {
+        return $intervention->commentaires()->create($data);
+    }
+}
