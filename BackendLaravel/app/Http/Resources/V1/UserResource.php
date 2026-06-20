@@ -25,6 +25,8 @@ class UserResource extends JsonResource
             'permissions' => $this->getAllPermissions()->pluck('name')->values(),
             // Vues/écrans accessibles -> pilote l'affichage et le temps réel côté front
             'views' => $this->accessibleViews(),
+            // Règles CASL (userAbilityRules) -> source de vérité RBAC pour le front
+            'abilities' => $this->abilityRules(),
         ];
     }
 }

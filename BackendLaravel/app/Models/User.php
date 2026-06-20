@@ -110,6 +110,39 @@ class User extends Authenticatable
     }
 
     /**
+     * Règles CASL (userAbilityRules) dérivées des permissions de l'utilisateur.
+     * Le backend est la source de vérité du RBAC : le front consomme ces règles.
+     *
+     * Convention de conversion :
+     *  - super-admin        -> [{ action:'manage', subject:'all' }]
+     *  - 'view.dashboard'   -> { action:'read',   subject:'dashboard' }
+     *  - 'vente.create'     -> { action:'create', subject:'vente' }
+     *
+     * @return array<int, array{action:string, subject:string}>
+     */
+    public function abilityRules(): array
+    {
+        if ($this->isSuperAdmin()) {
+            return [['action' => 'manage', 'subject' => 'all']];
+        }
+
+        $rules = [];
+        foreach ($this->getAllPermissions()->pluck('name') as $permission) {
+            if ($this->isPermissionDenied($permission)) {
+                continue; // retrait ciblé respecté
+            }
+
+            [$first, $second] = array_pad(explode('.', $permission, 2), 2, null);
+
+            $rules[] = $first === 'view'
+                ? ['action' => 'read', 'subject' => $second]
+                : ['action' => $second, 'subject' => $first];
+        }
+
+        return array_values($rules);
+    }
+
+    /**
      * Liste des vues/écrans accessibles à l'utilisateur (permissions `view.*`).
      * Le super admin a accès à toutes les vues (Gate::before).
      *
