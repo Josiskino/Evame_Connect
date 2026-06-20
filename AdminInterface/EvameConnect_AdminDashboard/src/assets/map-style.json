@@ -1,0 +1,29 @@
+[
+  { "elementType": "geometry", "stylers": [{ "color": "#f0f4f0" }] },
+  { "elementType": "labels.text.fill", "stylers": [{ "color": "#2F2B3D" }] },
+  { "elementType": "labels.text.stroke", "stylers": [{ "color": "#ffffff" }] },
+
+  { "featureType": "poi", "stylers": [{ "visibility": "off" }] },
+  { "featureType": "poi.park", "elementType": "geometry", "stylers": [{ "color": "#d8ecd8" }, { "visibility": "on" }] },
+  { "featureType": "poi.park", "elementType": "labels", "stylers": [{ "visibility": "off" }] },
+
+  { "featureType": "transit", "stylers": [{ "visibility": "off" }] },
+
+  { "featureType": "road", "elementType": "geometry", "stylers": [{ "color": "#ffffff" }] },
+  { "featureType": "road", "elementType": "geometry.stroke", "stylers": [{ "color": "#e0e8e0" }] },
+  { "featureType": "road", "elementType": "labels.text.fill", "stylers": [{ "color": "#6B7280" }] },
+  { "featureType": "road.highway", "elementType": "geometry", "stylers": [{ "color": "#c8e6c9" }] },
+  { "featureType": "road.highway", "elementType": "geometry.stroke", "stylers": [{ "color": "#a5d6a7" }] },
+  { "featureType": "road.highway", "elementType": "labels.text.fill", "stylers": [{ "color": "#388E3C" }] },
+
+  { "featureType": "water", "elementType": "geometry", "stylers": [{ "color": "#b3e0f2" }] },
+  { "featureType": "water", "elementType": "labels.text.fill", "stylers": [{ "color": "#5C6370" }] },
+
+  { "featureType": "landscape", "elementType": "geometry", "stylers": [{ "color": "#f0f4f0" }] },
+  { "featureType": "landscape.natural", "elementType": "geometry", "stylers": [{ "color": "#e8f5e9" }] },
+
+  { "featureType": "administrative", "elementType": "geometry.stroke", "stylers": [{ "color": "#c8e6c9" }] },
+  { "featureType": "administrative.land_parcel", "stylers": [{ "visibility": "off" }] },
+  { "featureType": "administrative.locality", "elementType": "labels.text.fill", "stylers": [{ "color": "#388E3C" }] },
+  { "featureType": "administrative.neighborhood", "stylers": [{ "visibility": "off" }] }
+]

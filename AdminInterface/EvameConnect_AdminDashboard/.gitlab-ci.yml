@@ -1,0 +1,52 @@
+image: node:20-alpine
+
+stages:
+  - build
+  - deploy
+
+# ─── STAGE : BUILD ───────────────────────────────────────────────────────────
+build:
+  stage: build
+  cache:
+    key: npm-$CI_COMMIT_REF_SLUG
+    paths:
+      - node_modules/
+  before_script:
+    - npm install --legacy-peer-deps
+    - echo "VITE_API_BASE_URL=$VITE_API_BASE_URL" >> .env
+    - echo "VITE_GOOGLE_MAPS_API_KEY=$VITE_GOOGLE_MAPS_API_KEY" >> .env
+    - echo "VITE_PUSHER_APP_KEY=$VITE_PUSHER_APP_KEY" >> .env
+    - echo "VITE_PUSHER_APP_CLUSTER=$VITE_PUSHER_APP_CLUSTER" >> .env
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+  only:
+    - main
+    - /^develop.*/
+
+# ─── STAGE : DEPLOY (main uniquement) ────────────────────────────────────────
+deploy:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache openssh-client rsync
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d ' \n\r' | base64 -d > /tmp/deploy_key
+    - chmod 600 /tmp/deploy_key
+    - ssh-add /tmp/deploy_key
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - ssh-keyscan -H 86.38.204.122 >> ~/.ssh/known_hosts 2>/dev/null
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - echo "▶ Envoi du build sur le serveur..."
+    - rsync -az --delete dist/ root@86.38.204.122:/home/kweek/care/frontend/public/
+    - ssh root@86.38.204.122 'chown -R www-data:www-data /home/kweek/care/frontend/public'
+    - echo "✅ Deploy complete!"
+  environment:
+    name: production
+    url: https://admin.care.ashum.org
+  only:
+    - main
