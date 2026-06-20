@@ -47,6 +47,8 @@ class UserAccessUpdated implements ShouldBroadcast
             'views' => $this->user->accessibleViews(),
             'permissions' => $this->user->getAllPermissions()->pluck('name')->values()->all(),
             'roles' => $this->user->getRoleNames()->values()->all(),
+            // Règles CASL à jour -> le front met à jour les droits en direct
+            'abilities' => $this->user->abilityRules(),
         ];
     }
 }

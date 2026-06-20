@@ -14,6 +14,12 @@ import NavBarI18n from '@core/components/I18n.vue'
 
 // @layouts plugin
 import { VerticalNavLayout } from '@layouts'
+import { useRealtimeAccess } from '@/composables/useRealtimeAccess'
+
+// Temps réel : met à jour droits/menu en direct (retrait de vue par l'admin)
+const { subscribe, unsubscribe } = useRealtimeAccess()
+onMounted(() => subscribe())
+onBeforeUnmount(() => unsubscribe())
 
 const sidebarCounts = useSidebarCountsStore()
 

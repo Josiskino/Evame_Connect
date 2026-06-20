@@ -367,6 +367,7 @@
     "parseNum": true,
     "printAttestationDocument": true,
     "settingsTotalIsValid": true,
-    "printAttestation": true
+    "printAttestation": true,
+    "useRealtimeAccess": true
   }
 }
