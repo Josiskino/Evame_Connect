@@ -83,8 +83,12 @@ const onSubmit = () => {
         <VCardItem class="justify-center">
           <VCardTitle>
             <RouterLink to="/">
-              <div class="app-logo justify-center">
-                <VNodeRenderer :nodes="themeConfig.app.logo" />
+              <div class="d-flex justify-center">
+                <img
+                  src="/logo-evame.png"
+                  alt="Evame Connect"
+                  height="84"
+                >
               </div>
             </RouterLink>
           </VCardTitle>
@@ -92,7 +96,7 @@ const onSubmit = () => {
 
         <VCardText>
           <h4 class="text-h4 mb-1">
-            Bienvenue sur <span class="text-capitalize">{{ themeConfig.app.title }}</span> 👋🏻
+            Bienvenue sur <span class="text-capitalize">{{ themeConfig.app.title }}</span>
           </h4>
           <p class="mb-0">
             Connectez-vous à votre compte
