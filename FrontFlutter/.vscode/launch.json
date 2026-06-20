@@ -1,0 +1,27 @@
+{
+  // Configurations de lancement Flutter (F5) — utilisent le SDK FVM
+  // défini par "dart.flutterSdkPath" dans .vscode/settings.json.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "evame_connect (debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart"
+    },
+    {
+      "name": "evame_connect (profile)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "program": "lib/main.dart"
+    },
+    {
+      "name": "evame_connect (release)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "program": "lib/main.dart"
+    }
+  ]
+}
