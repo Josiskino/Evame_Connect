@@ -9,7 +9,7 @@ const avatarRef = ref(null)
 
 const logout = async () => {
   try {
-    await $api('/auth/logout', { method: 'POST' })
+    await $api('/logout', { method: 'POST' })
   }
   catch {}
   useCookie('accessToken').value = null

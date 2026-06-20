@@ -7,7 +7,7 @@ const router = useRouter()
 
 const logout = async () => {
   try {
-    await $api('/auth/logout', { method: 'POST' })
+    await $api('/logout', { method: 'POST' })
   }
   catch {
     // ignore
