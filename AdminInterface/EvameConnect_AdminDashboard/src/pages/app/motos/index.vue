@@ -89,16 +89,18 @@ const tableHeaders = [
       <VBtnToggle
         v-model="viewMode"
         mandatory
+        density="compact"
         variant="outlined"
         color="primary"
-        rounded="lg"
+        divided
+        class="flex-shrink-0"
       >
-        <VBtn value="grid" class="text-none px-4">
-          <VIcon start icon="tabler-layout-grid" />
+        <VBtn value="grid" :min-width="150" :height="40" class="text-none">
+          <VIcon start icon="tabler-layout-grid" size="20" />
           Catalogue
         </VBtn>
-        <VBtn value="table" class="text-none px-4">
-          <VIcon start icon="tabler-list" />
+        <VBtn value="table" :min-width="130" :height="40" class="text-none">
+          <VIcon start icon="tabler-list" size="20" />
           Tableau
         </VBtn>
       </VBtnToggle>
