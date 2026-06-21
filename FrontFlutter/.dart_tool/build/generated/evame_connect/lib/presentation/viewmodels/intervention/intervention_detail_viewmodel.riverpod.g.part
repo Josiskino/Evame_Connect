@@ -1,0 +1,121 @@
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+/// Détail d'une intervention + actions (changer le statut, ajouter un commentaire).
+
+@ProviderFor(InterventionDetailViewModel)
+final interventionDetailViewModelProvider =
+    InterventionDetailViewModelFamily._();
+
+/// Détail d'une intervention + actions (changer le statut, ajouter un commentaire).
+final class InterventionDetailViewModelProvider
+    extends
+        $NotifierProvider<
+          InterventionDetailViewModel,
+          InterventionDetailState
+        > {
+  /// Détail d'une intervention + actions (changer le statut, ajouter un commentaire).
+  InterventionDetailViewModelProvider._({
+    required InterventionDetailViewModelFamily super.from,
+    required int super.argument,
+  }) : super(
+         retry: null,
+         name: r'interventionDetailViewModelProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$interventionDetailViewModelHash();
+
+  @override
+  String toString() {
+    return r'interventionDetailViewModelProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  InterventionDetailViewModel create() => InterventionDetailViewModel();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(InterventionDetailState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<InterventionDetailState>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is InterventionDetailViewModelProvider &&
+        other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$interventionDetailViewModelHash() =>
+    r'e584beb1d96ba5a59e500d00bf8ef902209ec3fc';
+
+/// Détail d'une intervention + actions (changer le statut, ajouter un commentaire).
+
+final class InterventionDetailViewModelFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          InterventionDetailViewModel,
+          InterventionDetailState,
+          InterventionDetailState,
+          InterventionDetailState,
+          int
+        > {
+  InterventionDetailViewModelFamily._()
+    : super(
+        retry: null,
+        name: r'interventionDetailViewModelProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  /// Détail d'une intervention + actions (changer le statut, ajouter un commentaire).
+
+  InterventionDetailViewModelProvider call(int id) =>
+      InterventionDetailViewModelProvider._(argument: id, from: this);
+
+  @override
+  String toString() => r'interventionDetailViewModelProvider';
+}
+
+/// Détail d'une intervention + actions (changer le statut, ajouter un commentaire).
+
+abstract class _$InterventionDetailViewModel
+    extends $Notifier<InterventionDetailState> {
+  late final _$args = ref.$arg as int;
+  int get id => _$args;
+
+  InterventionDetailState build(int id);
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref =
+        this.ref as $Ref<InterventionDetailState, InterventionDetailState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<InterventionDetailState, InterventionDetailState>,
+              InterventionDetailState,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, () => build(_$args));
+  }
+}

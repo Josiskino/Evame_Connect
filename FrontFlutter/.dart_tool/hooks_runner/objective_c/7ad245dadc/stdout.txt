@@ -1,0 +1,57 @@
+Running `(cd /Users/jojo/.pub-cache/hosted/pub.dev/objective_c-9.4.1/; TMPDIR=/var/folders/5n/yk9xr5zs6_5f0zr9mwsfy91r0000gn/T/ PATH=/Users/jojo/fvm/versions/3.44.2/bin:/Applications/cmux.app/Contents/Resources/bin:/Users/jojo/.shorebird/bin:/Users/jojo/.antigravity-ide/antigravity-ide/bin:/Users/jojo/google-cloud-sdk/google-cloud-sdk/bin:/Users/jojo/.bun/bin:/Users/jojo/.antigravity/antigravity/bin:/Users/jojo/.antigravity/antigravity/bin:/Users/jojo/.local/bin:/opt/homebrew/opt/php@8.2/sbin:/opt/homebrew/opt/php@8.2/bin:/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin:/opt/homebrew/lib/ruby/gems/3.4.0/bin:/Users/jojo/flutter/flutter/bin:/Users/jojo/.nvm/versions/node/v20.20.0/bin:/Users/jojo/.composer/vendor/bin:/Users/jojo/flutter/flutter/bin:/opt/homebrew/opt/ruby/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin:/Users/jojo/.pub-cache/bin:/Users/jojo/.pub-cache/bin:/Users/jojo/.claude/plugins/cache/claude-plugins-official/chrome-devtools-mcp/1.2.0/bin:/Users/jojo/.claude/plugins/cache/thedotmack/claude-mem/13.6.1/bin:/Users/jojo/.claude/plugins/cache/claude-plugins-official/figma/2.2.50/bin:/Users/jojo/.claude/plugins/cache/claude-plugins-official/firebase/unknown/bin:/Users/jojo/.claude/plugins/cache/claude-plugins-official/github/unknown/bin:/Users/jojo/.claude/plugins/cache/claude-plugins-official/gitlab/unknown/bin:/Users/jojo/.claude/plugins/cache/claude-plugins-official/notion/0.1.0/bin:/Users/jojo/.claude/plugins/cache/claude-plugins-official/postman/1.2.0/bin:/Users/jojo/.claude/plugins/cache/claude-plugins-official/skill-creator/unknown/bin:/Users/jojo/.claude/plugins/cache/claude-plugins-official/stripe/0.1.0/bin:/Users/jojo/.claude/plugins/cache/claude-plugins-official/telegram/0.0.6/bin HOME=/Users/jojo /Users/jojo/fvm/versions/3.44.2/bin/cache/dart-sdk/bin/dart --packages=/Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/package_config.json /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/objective_c/7ad245dadc/hook.dill --config=/Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/objective_c/7ad245dadc/input.json )`.
+INFO: 2026-06-21 20:03:27.708561: Using compiler /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang from BuildInput.cCompiler.cc.
+
+INFO: 2026-06-21 20:03:27.711035: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=13 -c /Users/jojo/.pub-cache/hosted/pub.dev/objective_c-9.4.1/src/include/dart_api_dl.c -fpic -gline-tables-only -I src -o /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/include/dart_api_dl.c.o
+
+INFO: 2026-06-21 20:03:27.711715: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=13 -c /Users/jojo/.pub-cache/hosted/pub.dev/objective_c-9.4.1/src/objective_c.c -fpic -gline-tables-only -I src -o /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c.c.o
+
+INFO: 2026-06-21 20:03:27.711820: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/jojo/.pub-cache/hosted/pub.dev/objective_c-9.4.1/src/input_stream_adapter.m -fpic -gline-tables-only -I src -o /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/input_stream_adapter.m.o
+
+INFO: 2026-06-21 20:03:27.711895: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/jojo/.pub-cache/hosted/pub.dev/objective_c-9.4.1/src/objective_c.m -fpic -gline-tables-only -I src -o /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c.m.o
+
+INFO: 2026-06-21 20:03:27.711986: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/jojo/.pub-cache/hosted/pub.dev/objective_c-9.4.1/src/observer.m -fpic -gline-tables-only -I src -o /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/observer.m.o
+
+INFO: 2026-06-21 20:03:27.712192: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/jojo/.pub-cache/hosted/pub.dev/objective_c-9.4.1/src/protocol.m -fpic -gline-tables-only -I src -o /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/protocol.m.o
+
+
+
+INFO: 2026-06-21 20:03:27.712272: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/jojo/.pub-cache/hosted/pub.dev/objective_c-9.4.1/src/objective_c_bindings_generated.m -fpic -gline-tables-only -I src -o /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c_bindings_generated.m.o
+
+INFO: 2026-06-21 20:03:27.935900: 
+INFO: 2026-06-21 20:03:27.936: 
+INFO: 2026-06-21 20:03:27.936035: Generated /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/include/dart_api_dl.c.o
+
+INFO: 2026-06-21 20:03:27.936327: 
+INFO: 2026-06-21 20:03:27.936340: 
+INFO: 2026-06-21 20:03:27.936348: Generated /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c.c.o
+
+INFO: 2026-06-21 20:03:27.937009: 
+INFO: 2026-06-21 20:03:27.937047: 
+INFO: 2026-06-21 20:03:27.937067: Generated /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/observer.m.o
+
+INFO: 2026-06-21 20:03:27.939065: 
+INFO: 2026-06-21 20:03:27.939085: 
+INFO: 2026-06-21 20:03:27.939093: Generated /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/protocol.m.o
+
+INFO: 2026-06-21 20:03:28.146589: 
+INFO: 2026-06-21 20:03:28.146625: 
+INFO: 2026-06-21 20:03:28.146633: Generated /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/ns_number.m.o
+
+INFO: 2026-06-21 20:03:28.153411: 
+INFO: 2026-06-21 20:03:28.153436: 
+INFO: 2026-06-21 20:03:28.153444: Generated /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c.m.o
+
+INFO: 2026-06-21 20:03:28.155317: 
+INFO: 2026-06-21 20:03:28.155337: 
+INFO: 2026-06-21 20:03:28.155356: Generated /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/input_stream_adapter.m.o
+
+INFO: 2026-06-21 20:03:28.164771: 
+INFO: 2026-06-21 20:03:28.164794: 
+INFO: 2026-06-21 20:03:28.164802: Generated /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c_bindings_generated.m.o
+
+INFO: 2026-06-21 20:03:28.165001: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -shared -Wl,-encryptable -undefined dynamic_lookup -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=13 /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/include/dart_api_dl.c.o /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c.c.o /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/input_stream_adapter.m.o /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c.m.o /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/observer.m.o /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/ns_number.m.o /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/protocol.m.o /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c_bindings_generated.m.o -o /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/objective_c.dylib
+
+INFO: 2026-06-21 20:03:28.259802: 
+INFO: 2026-06-21 20:03:28.259856: 
+INFO: 2026-06-21 20:03:28.259865: Generated /Users/jojo/Projects/EvameProject/FrontFlutter/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/objective_c.dylib
+

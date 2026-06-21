@@ -1,0 +1,301 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'intervention_provider.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(interventionDataSource)
+final interventionDataSourceProvider = InterventionDataSourceProvider._();
+
+final class InterventionDataSourceProvider
+    extends
+        $FunctionalProvider<
+          InterventionDataSource,
+          InterventionDataSource,
+          InterventionDataSource
+        >
+    with $Provider<InterventionDataSource> {
+  InterventionDataSourceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'interventionDataSourceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$interventionDataSourceHash();
+
+  @$internal
+  @override
+  $ProviderElement<InterventionDataSource> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  InterventionDataSource create(Ref ref) {
+    return interventionDataSource(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(InterventionDataSource value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<InterventionDataSource>(value),
+    );
+  }
+}
+
+String _$interventionDataSourceHash() =>
+    r'14b966789f7403076349079b27ed6fd337ccd3ae';
+
+@ProviderFor(interventionRepository)
+final interventionRepositoryProvider = InterventionRepositoryProvider._();
+
+final class InterventionRepositoryProvider
+    extends
+        $FunctionalProvider<
+          InterventionRepository,
+          InterventionRepository,
+          InterventionRepository
+        >
+    with $Provider<InterventionRepository> {
+  InterventionRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'interventionRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$interventionRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<InterventionRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  InterventionRepository create(Ref ref) {
+    return interventionRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(InterventionRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<InterventionRepository>(value),
+    );
+  }
+}
+
+String _$interventionRepositoryHash() =>
+    r'63df1f45ec37913d1d0432806b7118feb532ff74';
+
+@ProviderFor(listInterventionsUseCase)
+final listInterventionsUseCaseProvider = ListInterventionsUseCaseProvider._();
+
+final class ListInterventionsUseCaseProvider
+    extends
+        $FunctionalProvider<
+          ListInterventionsUseCase,
+          ListInterventionsUseCase,
+          ListInterventionsUseCase
+        >
+    with $Provider<ListInterventionsUseCase> {
+  ListInterventionsUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'listInterventionsUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$listInterventionsUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<ListInterventionsUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  ListInterventionsUseCase create(Ref ref) {
+    return listInterventionsUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ListInterventionsUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ListInterventionsUseCase>(value),
+    );
+  }
+}
+
+String _$listInterventionsUseCaseHash() =>
+    r'd111bf9b34d2b1f4792e1f58a1771e9fd73fe0cb';
+
+@ProviderFor(getInterventionUseCase)
+final getInterventionUseCaseProvider = GetInterventionUseCaseProvider._();
+
+final class GetInterventionUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetInterventionUseCase,
+          GetInterventionUseCase,
+          GetInterventionUseCase
+        >
+    with $Provider<GetInterventionUseCase> {
+  GetInterventionUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getInterventionUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getInterventionUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetInterventionUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetInterventionUseCase create(Ref ref) {
+    return getInterventionUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetInterventionUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetInterventionUseCase>(value),
+    );
+  }
+}
+
+String _$getInterventionUseCaseHash() =>
+    r'0a99a1d0c74eed2a9b756312933230fd5cc43898';
+
+@ProviderFor(updateInterventionStatusUseCase)
+final updateInterventionStatusUseCaseProvider =
+    UpdateInterventionStatusUseCaseProvider._();
+
+final class UpdateInterventionStatusUseCaseProvider
+    extends
+        $FunctionalProvider<
+          UpdateInterventionStatusUseCase,
+          UpdateInterventionStatusUseCase,
+          UpdateInterventionStatusUseCase
+        >
+    with $Provider<UpdateInterventionStatusUseCase> {
+  UpdateInterventionStatusUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'updateInterventionStatusUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$updateInterventionStatusUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<UpdateInterventionStatusUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  UpdateInterventionStatusUseCase create(Ref ref) {
+    return updateInterventionStatusUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(UpdateInterventionStatusUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<UpdateInterventionStatusUseCase>(
+        value,
+      ),
+    );
+  }
+}
+
+String _$updateInterventionStatusUseCaseHash() =>
+    r'4d7ea5475e8e3eb39eb1e0efbbeb500349ea4fa1';
+
+@ProviderFor(addCommentaireUseCase)
+final addCommentaireUseCaseProvider = AddCommentaireUseCaseProvider._();
+
+final class AddCommentaireUseCaseProvider
+    extends
+        $FunctionalProvider<
+          AddCommentaireUseCase,
+          AddCommentaireUseCase,
+          AddCommentaireUseCase
+        >
+    with $Provider<AddCommentaireUseCase> {
+  AddCommentaireUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'addCommentaireUseCaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$addCommentaireUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<AddCommentaireUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  AddCommentaireUseCase create(Ref ref) {
+    return addCommentaireUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AddCommentaireUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AddCommentaireUseCase>(value),
+    );
+  }
+}
+
+String _$addCommentaireUseCaseHash() =>
+    r'1ab82337a2dd2e5a761d823fd10a2baed164bc47';
