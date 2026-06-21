@@ -47,16 +47,15 @@ dev_dependencies:
   # Icône de lancement de l'application
   flutter_launcher_icons: ^0.14.4
 
-# --- Icône de l'application (logo EVAME) ---
+# --- Icône de l'application (logo EVAME centré avec marge) ---
 flutter_launcher_icons:
-  image_path: "assets/images/logo-evame.png"
+  image_path: "assets/images/icon-evame.png"
   min_sdk_android: 21
   android: "launcher_icon"
   adaptive_icon_background: "#FFFFFF"
-  adaptive_icon_foreground: "assets/images/logo-evame.png"
-  adaptive_icon_foreground_inset: 18
+  adaptive_icon_foreground: "assets/images/icon-evame.png"
   ios: true
-  image_path_ios: "assets/images/logo-evame.png"
+  image_path_ios: "assets/images/icon-evame.png"
   remove_alpha_ios: true
 
 # --- Écran de lancement (splash) : fond blanc, logo centré ---
