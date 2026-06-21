@@ -12,6 +12,7 @@ import '../../viewmodels/auth/auth_viewmodel.dart';
 import '../../viewmodels/auth/state/auth_state.dart';
 import '../../viewmodels/intervention/interventions_viewmodel.dart';
 import '../../viewmodels/intervention/state/interventions_state.dart';
+import '../../widgets/notification_icon_button.dart';
 
 /// Écran d'accueil : salutation, indicateurs rapides, action « Nouvelle intervention ».
 class HomeScreen extends ConsumerWidget {
@@ -28,7 +29,10 @@ class HomeScreen extends ConsumerWidget {
     final items = state is InterventionsLoaded ? state.items : <InterventionEntity>[];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Accueil')),
+      appBar: AppBar(
+        title: const Text('Accueil'),
+        actions: const [NotificationIconButton(), SizedBox(width: 4)],
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push(AppRoute.newIntervention),
         backgroundColor: AppColors.primary,

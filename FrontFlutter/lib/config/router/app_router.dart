@@ -7,6 +7,7 @@ import '../../presentation/pages/auth/login_screen.dart';
 import '../../presentation/pages/interventions/intervention_detail_screen.dart';
 import '../../presentation/pages/interventions/new_intervention_screen.dart';
 import '../../presentation/pages/main_page/main_page.dart';
+import '../../presentation/pages/notifications/notifications_screen.dart';
 import '../../presentation/pages/splash/splash_screen.dart';
 import '../../presentation/viewmodels/auth/auth_viewmodel.dart';
 import '../../presentation/viewmodels/auth/state/auth_state.dart';
@@ -44,6 +45,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoute.newIntervention,
         builder: (_, _) => const NewInterventionScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.notifications,
+        builder: (_, _) => const NotificationsScreen(),
       ),
       GoRoute(
         path: AppRoute.interventionDetail,
