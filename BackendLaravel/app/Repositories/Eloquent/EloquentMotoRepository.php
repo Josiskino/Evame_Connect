@@ -37,6 +37,16 @@ class EloquentMotoRepository implements MotoRepositoryInterface
             $query->where('stock', '>', 0);
         }
 
+        // Filtre par statut de stock : disponible | stock_faible | rupture
+        if (! empty($filters['statut'])) {
+            match ($filters['statut']) {
+                'disponible' => $query->whereColumn('stock', '>', 'seuil_alerte'),
+                'stock_faible' => $query->where('stock', '>', 0)->whereColumn('stock', '<=', 'seuil_alerte'),
+                'rupture' => $query->where('stock', 0),
+                default => null,
+            };
+        }
+
         if (! empty($filters['prix_max'])) {
             $query->where('prix', '<=', (int) $filters['prix_max']);
         }

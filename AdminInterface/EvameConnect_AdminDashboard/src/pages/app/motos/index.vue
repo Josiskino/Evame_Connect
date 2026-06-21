@@ -13,7 +13,7 @@ const searchRaw = ref('')
 const search = refDebounced(searchRaw, 400)
 const famille = ref(null)
 const classeCc = ref(null)
-const disponible = ref(false)
+const statut = ref(null)
 const prixMax = ref(null)
 
 const familleOptions = [
@@ -22,11 +22,16 @@ const familleOptions = [
   { title: 'Cub', value: 'sous_los' },
 ]
 const classeOptions = ['110CC', '115CC', '125CC', '150CC', '160CC', '300CC']
+const statutOptions = [
+  { title: 'Disponible', value: 'disponible' },
+  { title: 'Stock faible', value: 'stock_faible' },
+  { title: 'Rupture', value: 'rupture' },
+]
 const perPageOptions = [12, 24, 48]
 
 const familleLabel = code => familleOptions.find(f => f.value === code)?.title ?? code
 
-watch([search, famille, classeCc, disponible, prixMax, perPage], () => {
+watch([search, famille, classeCc, statut, prixMax, perPage], () => {
   page.value = 1
 })
 
@@ -37,7 +42,7 @@ const queryUrl = computed(() => {
   if (search.value) p.set('search', search.value)
   if (famille.value) p.set('famille', famille.value)
   if (classeCc.value) p.set('classe_cc', classeCc.value)
-  if (disponible.value) p.set('disponible', '1')
+  if (statut.value) p.set('statut', statut.value)
   if (prixMax.value) p.set('prix_max', String(prixMax.value))
 
   return `/motos?${p.toString()}`
@@ -54,7 +59,7 @@ const resetFilters = () => {
   searchRaw.value = ''
   famille.value = null
   classeCc.value = null
-  disponible.value = false
+  statut.value = null
   prixMax.value = null
 }
 
@@ -146,11 +151,13 @@ const tableHeaders = [
               clearable
             />
           </VCol>
-          <VCol cols="6" md="2" class="d-flex align-center">
-            <VSwitch
-              v-model="disponible"
-              label="Disponible"
-              color="primary"
+          <VCol cols="6" md="2">
+            <AppSelect
+              v-model="statut"
+              label="Statut"
+              :items="statutOptions"
+              placeholder="Tous"
+              clearable
             />
           </VCol>
         </VRow>
