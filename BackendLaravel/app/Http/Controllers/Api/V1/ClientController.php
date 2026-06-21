@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Actions\Client\CreateClientAction;
+use App\Actions\Client\GetClientsStatsAction;
 use App\Actions\Client\ListClientsAction;
 use App\Actions\Client\ShowClientAction;
 use App\DTOs\Client\CreateClientData;
@@ -21,6 +22,11 @@ class ClientController extends Controller
         $clients = $action->execute($request->query('search'), $request->integer('per_page', 15));
 
         return ApiResponse::success(ClientResource::collection($clients));
+    }
+
+    public function stats(GetClientsStatsAction $action): JsonResponse
+    {
+        return ApiResponse::success($action->execute());
     }
 
     public function store(StoreClientRequest $request, CreateClientAction $action): JsonResponse

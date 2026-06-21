@@ -10,9 +10,10 @@ use Illuminate\Support\Collection;
 
 class EloquentContratLeasingRepository implements ContratLeasingRepositoryInterface
 {
-    public function paginate(int $perPage = 15): LengthAwarePaginator
+    public function paginate(int $perPage = 15, ?string $search = null): LengthAwarePaginator
     {
         return ContratLeasing::with(['client', 'moto', 'paiements'])
+            ->when($search, fn ($q) => $q->whereHas('client', fn ($c) => $c->where('nom', 'like', "%{$search}%")))
             ->latest()
             ->paginate($perPage);
     }
@@ -22,6 +23,18 @@ class EloquentContratLeasingRepository implements ContratLeasingRepositoryInterf
         return ContratLeasing::where('statut', 'actif')
             ->with('paiements')
             ->get();
+    }
+
+    public function stats(): array
+    {
+        $actifs = $this->activeWithPaiements();
+
+        return [
+            'contrats_actifs' => $actifs->count(),
+            'encaissements_total' => (int) Paiement::sum('montant'),
+            'clients_en_retard' => $actifs->filter(fn (ContratLeasing $c) => $c->en_retard)->count(),
+            'reste_a_recouvrer' => (int) $actifs->sum('montant_restant'),
+        ];
     }
 
     public function create(array $data): ContratLeasing

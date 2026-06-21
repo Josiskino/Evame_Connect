@@ -9,10 +9,17 @@ use Illuminate\Support\Collection;
 
 interface ContratLeasingRepositoryInterface
 {
-    public function paginate(int $perPage = 15): LengthAwarePaginator;
+    public function paginate(int $perPage = 15, ?string $search = null): LengthAwarePaginator;
 
     /** Contrats actifs avec leurs paiements (pour calcul des indicateurs). */
     public function activeWithPaiements(): Collection;
+
+    /**
+     * Indicateurs agrégés du leasing (actifs, encaissements, retards, reste).
+     *
+     * @return array<string, int>
+     */
+    public function stats(): array;
 
     /**
      * @param  array<string, mixed>  $data

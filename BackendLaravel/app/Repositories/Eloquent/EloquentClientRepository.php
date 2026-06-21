@@ -22,6 +22,17 @@ class EloquentClientRepository implements ClientRepositoryInterface
         return $query->orderBy('nom')->paginate($perPage);
     }
 
+    public function stats(): array
+    {
+        return [
+            'total' => Client::count(),
+            'nouveaux_ce_mois' => Client::whereYear('created_at', now()->year)
+                ->whereMonth('created_at', now()->month)
+                ->count(),
+            'avec_cni' => Client::whereNotNull('cni_date_expiration')->count(),
+        ];
+    }
+
     public function create(array $data): Client
     {
         return Client::create($data);

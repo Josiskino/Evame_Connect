@@ -1,4 +1,6 @@
 <script setup>
+import { refDebounced } from '@vueuse/core'
+
 definePage({ meta: { layout: 'default', action: 'read', subject: 'leasing' } })
 
 const router = useRouter()
@@ -6,30 +8,41 @@ const router = useRouter()
 const page = ref(1)
 const perPage = ref(15)
 const enRetard = ref(false)
+const searchRaw = ref('')
+const search = refDebounced(searchRaw, 400)
 
 const queryUrl = computed(() => {
   const p = new URLSearchParams()
   p.set('page', String(page.value))
   p.set('per_page', String(perPage.value))
   if (enRetard.value) p.set('en_retard', '1')
+  if (search.value) p.set('search', search.value)
 
   return `/leasing?${p.toString()}`
 })
 
-watch([enRetard, perPage], () => { page.value = 1 })
+watch([enRetard, perPage, search], () => { page.value = 1 })
 
 const { data, isFetching, execute } = useApi(queryUrl)
 
-// Temps réel : contrat ou paiement ailleurs -> rafraîchit la liste
+// Mini-dashboard
+const { data: statsData, execute: refreshStats } = useApi('/leasing/stats')
+const stats = computed(() => statsData.value?.data ?? {})
+
+// Temps réel : contrat ou paiement ailleurs -> rafraîchit liste + stats
 const { lastActivity } = useRealtimeActivity()
 watch(lastActivity, ev => {
-  if (ev && ['leasing', 'paiement'].includes(ev.resource)) execute()
+  if (ev && ['leasing', 'paiement'].includes(ev.resource)) {
+    execute()
+    refreshStats()
+  }
 })
 
 const contrats = computed(() => data.value?.data ?? [])
 const meta = computed(() => data.value?.meta ?? { last_page: 1, total: 0, from: 0, to: 0 })
 
 const fmtMoney = n => `${new Intl.NumberFormat('fr-FR').format(Number(n ?? 0))} FCFA`
+const fmtNumber = n => new Intl.NumberFormat('fr-FR').format(Number(n ?? 0))
 
 const headers = [
   { title: 'Client', key: 'client' },
@@ -55,7 +68,38 @@ const headers = [
       </VBtnToggle>
     </div>
 
+    <!-- Mini-dashboard -->
+    <VRow class="mb-2">
+      <VCol cols="12" sm="6" md="3">
+        <StatCard title="Contrats actifs" :value="fmtNumber(stats.contrats_actifs)" icon="tabler-file-dollar" color="primary" />
+      </VCol>
+      <VCol cols="12" sm="6" md="3">
+        <StatCard title="Encaissements" :value="fmtMoney(stats.encaissements_total)" icon="tabler-cash" color="success" />
+      </VCol>
+      <VCol cols="12" sm="6" md="3">
+        <StatCard title="Reste à recouvrer" :value="fmtMoney(stats.reste_a_recouvrer)" icon="tabler-wallet" color="warning" />
+      </VCol>
+      <VCol cols="12" sm="6" md="3">
+        <StatCard title="Clients en retard" :value="fmtNumber(stats.clients_en_retard)" icon="tabler-alert-triangle" color="error" />
+      </VCol>
+    </VRow>
+
     <VCard>
+      <VCardText>
+        <VRow>
+          <VCol cols="12" md="5">
+            <AppTextField
+              v-model="searchRaw"
+              placeholder="Rechercher par client…"
+              prepend-inner-icon="tabler-search"
+              clearable
+            />
+          </VCol>
+        </VRow>
+      </VCardText>
+
+      <VDivider />
+
       <VDataTable
         :headers="headers"
         :items="contrats"

@@ -7,7 +7,18 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface VenteRepositoryInterface
 {
-    public function paginate(int $perPage = 15): LengthAwarePaginator;
+    /**
+     * @param  array<string, mixed>  $filters
+     */
+    public function paginate(int $perPage = 15, array $filters = []): LengthAwarePaginator;
+
+    /**
+     * Indicateurs agrégés (respectant les mêmes filtres que la liste).
+     *
+     * @param  array<string, mixed>  $filters
+     * @return array<string, int>
+     */
+    public function stats(array $filters = []): array;
 
     /**
      * @param  array<string, mixed>  $data

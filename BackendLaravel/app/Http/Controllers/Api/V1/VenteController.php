@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Actions\Vente\CreateVenteAction;
+use App\Actions\Vente\GetVentesStatsAction;
 use App\Actions\Vente\ListVentesAction;
 use App\Actions\Vente\ShowVenteAction;
 use App\DTOs\Vente\CreateVenteData;
@@ -18,9 +19,16 @@ class VenteController extends Controller
 {
     public function index(Request $request, ListVentesAction $action): JsonResponse
     {
+        $filters = $request->only(['search', 'mode']);
+
         return ApiResponse::success(
-            VenteResource::collection($action->execute($request->integer('per_page', 15)))
+            VenteResource::collection($action->execute($request->integer('per_page', 15), $filters))
         );
+    }
+
+    public function stats(Request $request, GetVentesStatsAction $action): JsonResponse
+    {
+        return ApiResponse::success($action->execute($request->only(['search', 'mode'])));
     }
 
     public function store(StoreVenteRequest $request, CreateVenteAction $action): JsonResponse

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Actions\Leasing\CreateContratAction;
+use App\Actions\Leasing\GetLeasingStatsAction;
 use App\Actions\Leasing\ListContratsAction;
 use App\Actions\Leasing\RegisterPaiementAction;
 use App\Actions\Leasing\ShowContratAction;
@@ -25,10 +26,16 @@ class ContratLeasingController extends Controller
     {
         $contrats = $action->execute(
             $request->boolean('en_retard'),
-            $request->integer('per_page', 15)
+            $request->integer('per_page', 15),
+            $request->query('search'),
         );
 
         return ApiResponse::success(ContratLeasingResource::collection($contrats));
+    }
+
+    public function stats(GetLeasingStatsAction $action): JsonResponse
+    {
+        return ApiResponse::success($action->execute());
     }
 
     public function store(StoreContratLeasingRequest $request, CreateContratAction $action): JsonResponse

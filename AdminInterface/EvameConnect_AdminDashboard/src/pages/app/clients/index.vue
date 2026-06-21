@@ -25,8 +25,14 @@ const queryUrl = computed(() => {
 
 const { data, isFetching, execute } = useApi(queryUrl)
 
+// Mini-dashboard
+const { data: statsData, execute: refreshStats } = useApi('/clients/stats')
+const stats = computed(() => statsData.value?.data ?? {})
+
 const clients = computed(() => data.value?.data ?? [])
 const meta = computed(() => data.value?.meta ?? { last_page: 1, total: 0, from: 0, to: 0 })
+
+const fmtNumber = n => new Intl.NumberFormat('fr-FR').format(Number(n ?? 0))
 
 const headers = [
   { title: 'Nom', key: 'nom' },
@@ -43,7 +49,10 @@ const notify = (message, color = 'success') =>
 // --- Temps réel : rafraîchit la liste si un client change ailleurs --------
 const { lastActivity } = useRealtimeActivity()
 watch(lastActivity, ev => {
-  if (ev?.resource === 'client') execute()
+  if (ev?.resource === 'client') {
+    execute()
+    refreshStats()
+  }
 })
 
 // --- Création client (formulaire réutilisable avec CNI) ------------------
@@ -52,6 +61,7 @@ const dialog = ref(false)
 const onClientCreated = () => {
   notify('Client enregistré avec succès.')
   execute()
+  refreshStats()
 }
 </script>
 
@@ -67,6 +77,19 @@ const onClientCreated = () => {
         Nouveau client
       </VBtn>
     </div>
+
+    <!-- Mini-dashboard -->
+    <VRow class="mb-2">
+      <VCol cols="12" sm="4">
+        <StatCard title="Clients au total" :value="fmtNumber(stats.total)" icon="tabler-users" color="primary" />
+      </VCol>
+      <VCol cols="12" sm="4">
+        <StatCard title="Nouveaux ce mois" :value="fmtNumber(stats.nouveaux_ce_mois)" icon="tabler-user-plus" color="success" />
+      </VCol>
+      <VCol cols="12" sm="4">
+        <StatCard title="Avec CNI enregistrée" :value="fmtNumber(stats.avec_cni)" icon="tabler-id" color="info" />
+      </VCol>
+    </VRow>
 
     <VCard>
       <VCardText>

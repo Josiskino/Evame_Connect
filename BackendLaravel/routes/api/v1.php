@@ -42,16 +42,19 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Module 3 — Clients
     Route::get('/clients', [ClientController::class, 'index'])->middleware('permission:'.Permissions::VIEW_CLIENTS);
+    Route::get('/clients/stats', [ClientController::class, 'stats'])->middleware('permission:'.Permissions::VIEW_CLIENTS);
     Route::get('/clients/{client}', [ClientController::class, 'show'])->middleware('permission:'.Permissions::VIEW_CLIENTS);
     Route::post('/clients', [ClientController::class, 'store'])->middleware('permission:'.Permissions::CLIENT_CREATE);
 
     // Module 3 — Ventes
     Route::get('/ventes', [VenteController::class, 'index'])->middleware('permission:'.Permissions::VIEW_VENTES);
+    Route::get('/ventes/stats', [VenteController::class, 'stats'])->middleware('permission:'.Permissions::VIEW_VENTES);
     Route::get('/ventes/{vente}', [VenteController::class, 'show'])->middleware('permission:'.Permissions::VIEW_VENTES);
     Route::post('/ventes', [VenteController::class, 'store'])->middleware('permission:'.Permissions::VENTE_CREATE);
 
     // Module 4 — Leasing
     Route::get('/leasing', [ContratLeasingController::class, 'index'])->middleware('permission:'.Permissions::VIEW_LEASING);
+    Route::get('/leasing/stats', [ContratLeasingController::class, 'stats'])->middleware('permission:'.Permissions::VIEW_LEASING);
     Route::post('/leasing/simulate', [ContratLeasingController::class, 'simulate'])->middleware('permission:'.Permissions::VIEW_LEASING);
     Route::get('/leasing/{leasing}', [ContratLeasingController::class, 'show'])->middleware('permission:'.Permissions::VIEW_LEASING);
     Route::post('/leasing', [ContratLeasingController::class, 'store'])->middleware('permission:'.Permissions::LEASING_CREATE);

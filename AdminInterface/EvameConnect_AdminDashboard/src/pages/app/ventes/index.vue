@@ -1,4 +1,6 @@
 <script setup>
+import { refDebounced } from '@vueuse/core'
+
 definePage({ meta: { layout: 'default', action: 'read', subject: 'ventes' } })
 
 const router = useRouter()
@@ -7,14 +9,41 @@ const canCreate = computed(() => ability.can('create', 'vente'))
 
 const page = ref(1)
 const perPage = ref(15)
+const searchRaw = ref('')
+const search = refDebounced(searchRaw, 400)
+const mode = ref(null)
 
-const queryUrl = computed(() => `/ventes?page=${page.value}&per_page=${perPage.value}`)
+const modeOptions = [
+  { title: 'Tous les modes', value: null },
+  { title: 'Achat direct', value: 'direct' },
+  { title: 'Leasing', value: 'leasing' },
+]
+
+watch([search, mode, perPage], () => { page.value = 1 })
+
+const filterQs = computed(() => {
+  const p = new URLSearchParams()
+  if (search.value) p.set('search', search.value)
+  if (mode.value) p.set('mode', mode.value)
+
+  return p.toString()
+})
+
+const queryUrl = computed(() => `/ventes?page=${page.value}&per_page=${perPage.value}${filterQs.value ? `&${filterQs.value}` : ''}`)
 const { data, isFetching, execute } = useApi(queryUrl)
 
-// Temps réel : une vente/paiement/contrat ailleurs -> rafraîchit la liste
+// Mini-dashboard (respecte les filtres)
+const statsUrl = computed(() => `/ventes/stats${filterQs.value ? `?${filterQs.value}` : ''}`)
+const { data: statsData, execute: refreshStats } = useApi(statsUrl)
+const stats = computed(() => statsData.value?.data ?? {})
+
+// Temps réel : une vente/paiement/contrat ailleurs -> rafraîchit liste + stats
 const { lastActivity } = useRealtimeActivity()
 watch(lastActivity, ev => {
-  if (ev && ['vente', 'paiement', 'leasing'].includes(ev.resource)) execute()
+  if (ev && ['vente', 'paiement', 'leasing'].includes(ev.resource)) {
+    execute()
+    refreshStats()
+  }
 })
 
 const ventes = computed(() => data.value?.data ?? [])
@@ -27,7 +56,7 @@ const headers = [
   { title: 'Date', key: 'date_vente' },
   { title: 'Client', key: 'client' },
   { title: 'Moto', key: 'moto' },
-  { title: "Mode", key: 'mode', align: 'center' },
+  { title: 'Mode', key: 'mode', align: 'center' },
   { title: 'Montant', key: 'montant', align: 'end' },
   { title: 'Commercial', key: 'commercial' },
 ]
@@ -45,7 +74,41 @@ const headers = [
       </VBtn>
     </div>
 
+    <!-- Mini-dashboard -->
+    <VRow class="mb-2">
+      <VCol cols="12" sm="6" md="3">
+        <StatCard title="Chiffre d'affaires" :value="fmtMoney(stats.chiffre_affaires)" icon="tabler-cash" color="primary" />
+      </VCol>
+      <VCol cols="12" sm="6" md="3">
+        <StatCard title="Nombre de ventes" :value="stats.nombre_ventes ?? 0" icon="tabler-shopping-cart" color="info" />
+      </VCol>
+      <VCol cols="12" sm="6" md="3">
+        <StatCard title="Achats directs" :value="stats.nombre_direct ?? 0" icon="tabler-cash-banknote" color="success" />
+      </VCol>
+      <VCol cols="12" sm="6" md="3">
+        <StatCard title="Ventes en leasing" :value="stats.nombre_leasing ?? 0" icon="tabler-calendar-repeat" color="warning" />
+      </VCol>
+    </VRow>
+
     <VCard>
+      <VCardText>
+        <VRow>
+          <VCol cols="12" md="5">
+            <AppTextField
+              v-model="searchRaw"
+              placeholder="Rechercher par client ou moto…"
+              prepend-inner-icon="tabler-search"
+              clearable
+            />
+          </VCol>
+          <VCol cols="12" md="4">
+            <AppSelect v-model="mode" :items="modeOptions" placeholder="Mode d'achat" />
+          </VCol>
+        </VRow>
+      </VCardText>
+
+      <VDivider />
+
       <VDataTable
         :headers="headers"
         :items="ventes"
