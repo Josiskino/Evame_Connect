@@ -18,9 +18,17 @@ class StoreClientRequest extends FormRequest
     {
         return [
             'nom' => ['required', 'string', 'max:255'],
-            'telephone' => ['nullable', 'string', 'max:50'],
+            // Le téléphone est désormais obligatoire à l'enregistrement.
+            'telephone' => ['required', 'string', 'max:50'],
             'email' => ['nullable', 'email', 'max:255'],
             'adresse' => ['nullable', 'string', 'max:255'],
+            // Pièce d'identité (CNI).
+            'cni_recto' => ['nullable', 'image', 'max:4096'],
+            'cni_verso' => ['nullable', 'image', 'max:4096'],
+            'cni_date_emission' => ['nullable', 'date'],
+            // La CNI doit être valide : date d'expiration postérieure à aujourd'hui.
+            'cni_date_expiration' => ['required', 'date', 'after:today'],
+            'cni_lieu_emission' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

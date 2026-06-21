@@ -24,7 +24,16 @@ class ClientController extends Controller
 
     public function store(StoreClientRequest $request, CreateClientAction $action): JsonResponse
     {
-        $client = $action->execute(CreateClientData::fromArray($request->validated()));
+        $data = $request->validated();
+
+        // Stockage des photos de la CNI (préoccupation HTTP) → chemins relatifs.
+        foreach (['cni_recto', 'cni_verso'] as $field) {
+            if ($request->hasFile($field)) {
+                $data[$field] = $request->file($field)->store('cni', 'public');
+            }
+        }
+
+        $client = $action->execute(CreateClientData::fromArray($data));
 
         return ApiResponse::success(new ClientResource($client), 'Client enregistré.', 201);
     }

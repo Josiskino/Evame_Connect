@@ -10,8 +10,9 @@ class EloquentVenteRepository implements VenteRepositoryInterface
 {
     public function paginate(int $perPage = 15): LengthAwarePaginator
     {
-        // Eager loading pour éviter les N+1 sur la liste
-        return Vente::with(['client', 'moto', 'user'])
+        // Eager loading pour éviter les N+1 sur la liste ;
+        // contrat.paiements requis pour calculer le reste à payer (leasing).
+        return Vente::with(['client', 'moto', 'user', 'contrat.paiements'])
             ->latest('date_vente')
             ->paginate($perPage);
     }
