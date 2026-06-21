@@ -83,14 +83,15 @@ class DatabaseSeeder extends Seeder
 
         // --- 5. Contrat leasing « scénario » du cahier des charges --------
         // KOFFI Mensah / EVAME 125 CC / 180 jours / 2 000 FCFA/jour / 360 000 FCFA
-        // Débuté il y a 100 jours -> attendu = 200 000 ; payé = 200 000 -> à jour ; progression 56 %.
+        // Débuté il y a 80 jours -> attendu = 160 000 ; payé = 200 000 -> à jour ; progression 56 %.
+        // (marge de 20 jours pour rester « à jour » malgré l'écoulement réel du temps)
         $venteLeasing = Vente::create([
             'client_id' => $koffi->id,
             'moto_id' => $moto125->id,
             'user_id' => $commercial->id,
             'mode' => Vente::MODE_LEASING,
             'montant' => 360_000,
-            'date_vente' => Carbon::today()->subDays(100)->format('Y-m-d'),
+            'date_vente' => Carbon::today()->subDays(80)->format('Y-m-d'),
             'statut' => 'validee',
         ]);
 
@@ -98,7 +99,7 @@ class DatabaseSeeder extends Seeder
             'client_id' => $koffi->id,
             'moto_id' => $moto125->id,
             'vente_id' => $venteLeasing->id,
-            'date_debut' => Carbon::today()->subDays(100)->format('Y-m-d'),
+            'date_debut' => Carbon::today()->subDays(80)->format('Y-m-d'),
             'duree_jours' => 180,
             'montant_journalier' => 2_000,
             'montant_total' => 360_000,
