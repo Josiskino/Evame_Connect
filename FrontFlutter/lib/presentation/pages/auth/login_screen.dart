@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/constants/app_images.dart';
 import '../../../core/constants/design_tokens.dart';
@@ -46,27 +47,33 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(DesignTokens.spaceXl),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(AppImages.logo, height: 72),
-                const SizedBox(height: DesignTokens.spaceXxl),
-                Text('Connexion technicien', style: Theme.of(context).textTheme.titleLarge),
-                const SizedBox(height: DesignTokens.spaceXl),
-                AppTextField(controller: _email, label: 'E-mail', keyboardType: TextInputType.emailAddress),
-                const SizedBox(height: DesignTokens.spaceL),
-                AppTextField(controller: _password, label: 'Mot de passe', obscureText: true),
-                const SizedBox(height: DesignTokens.spaceXl),
-                PrimaryButton(
-                  label: 'Se connecter',
-                  isLoading: state is AuthLoading,
-                  onPressed: _submit,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spaceXl),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: DesignTokens.spaceXxxl),
+              Center(child: Image.asset(AppImages.splash, height: 110)),
+              const SizedBox(height: DesignTokens.spaceL),
+              Text(
+                'Connexion technicien',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.bricolageGrotesque(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: DesignTokens.spaceXxxl),
+              AppTextField(controller: _email, label: 'E-mail', keyboardType: TextInputType.emailAddress),
+              const SizedBox(height: DesignTokens.spaceL),
+              AppTextField(controller: _password, label: 'Mot de passe', obscureText: true),
+              const SizedBox(height: DesignTokens.spaceXl),
+              PrimaryButton(
+                label: 'Se connecter',
+                isLoading: state is AuthLoading,
+                onPressed: _submit,
+              ),
+            ],
           ),
         ),
       ),
