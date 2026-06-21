@@ -1,5 +1,4 @@
 <script setup>
-import { VForm } from 'vuetify/components/VForm'
 import { refDebounced } from '@vueuse/core'
 
 definePage({ meta: { layout: 'default', action: 'read', subject: 'clients' } })
@@ -42,39 +41,12 @@ const notify = (message, color = 'success') => {
   snackbar.value = { show: true, message, color }
 }
 
-// --- Création client -----------------------------------------------------
+// --- Création client (formulaire réutilisable avec CNI) ------------------
 const dialog = ref(false)
-const refForm = ref()
-const saving = ref(false)
-const form = ref({ nom: '', telephone: '', email: '', adresse: '' })
-const fieldErrors = ref({})
 
-const openCreate = () => {
-  form.value = { nom: '', telephone: '', email: '', adresse: '' }
-  fieldErrors.value = {}
-  dialog.value = true
-}
-
-const submit = async () => {
-  const { valid } = await refForm.value.validate()
-  if (!valid) return
-
-  saving.value = true
-  fieldErrors.value = {}
-  try {
-    await $api('/clients', { method: 'POST', body: form.value })
-    notify('Client enregistré avec succès.')
-    dialog.value = false
-    execute()
-  }
-  catch (err) {
-    const d = err?.response?._data
-    fieldErrors.value = d?.errors ?? {}
-    notify(d?.message || "Échec de l'enregistrement.", 'error')
-  }
-  finally {
-    saving.value = false
-  }
+const onClientCreated = () => {
+  notify('Client enregistré avec succès.')
+  execute()
 }
 </script>
 
@@ -86,7 +58,7 @@ const submit = async () => {
         <h4 class="text-h4 font-weight-bold">Clients</h4>
         <p class="text-medium-emphasis mb-0">{{ meta.total }} client(s) enregistré(s)</p>
       </div>
-      <VBtn v-if="canCreate" prepend-icon="tabler-plus" @click="openCreate">
+      <VBtn v-if="canCreate" prepend-icon="tabler-plus" @click="dialog = true">
         Nouveau client
       </VBtn>
     </div>
@@ -137,62 +109,8 @@ const submit = async () => {
       <VPagination v-model="page" :length="meta.last_page" :total-visible="5" rounded="circle" />
     </div>
 
-    <!-- Dialog création -->
-    <VDialog v-model="dialog" max-width="520" persistent>
-      <VCard>
-        <VCardItem>
-          <VCardTitle>Nouveau client</VCardTitle>
-        </VCardItem>
-        <VCardText>
-          <VForm ref="refForm" @submit.prevent="submit">
-            <VRow>
-              <VCol cols="12">
-                <AppTextField
-                  v-model="form.nom"
-                  label="Nom complet *"
-                  placeholder="KOFFI Mensah"
-                  :rules="[requiredValidator]"
-                  :error-messages="fieldErrors.nom"
-                />
-              </VCol>
-              <VCol cols="12" sm="6">
-                <AppTextField
-                  v-model="form.telephone"
-                  label="Téléphone"
-                  placeholder="+228 90 00 00 00"
-                  :error-messages="fieldErrors.telephone"
-                />
-              </VCol>
-              <VCol cols="12" sm="6">
-                <AppTextField
-                  v-model="form.email"
-                  label="E-mail"
-                  type="email"
-                  placeholder="client@example.com"
-                  :error-messages="fieldErrors.email"
-                />
-              </VCol>
-              <VCol cols="12">
-                <AppTextField
-                  v-model="form.adresse"
-                  label="Adresse"
-                  placeholder="Lomé"
-                  :error-messages="fieldErrors.adresse"
-                />
-              </VCol>
-            </VRow>
-          </VForm>
-        </VCardText>
-        <VCardText class="d-flex justify-end gap-3">
-          <VBtn variant="tonal" color="secondary" :disabled="saving" @click="dialog = false">
-            Annuler
-          </VBtn>
-          <VBtn :loading="saving" @click="submit">
-            Enregistrer
-          </VBtn>
-        </VCardText>
-      </VCard>
-    </VDialog>
+    <!-- Dialog création (formulaire réutilisable avec CNI) -->
+    <ClientFormDialog v-model="dialog" @created="onClientCreated" />
 
     <!-- Notification -->
     <VSnackbar v-model="snackbar.show" location="top end" :color="snackbar.color" :timeout="3500">

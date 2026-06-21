@@ -1,5 +1,4 @@
 <script setup>
-import { VForm } from 'vuetify/components/VForm'
 import { watchDebounced } from '@vueuse/core'
 
 definePage({ meta: { layout: 'default', action: 'create', subject: 'vente' } })
@@ -32,36 +31,12 @@ const fetchClients = async q => {
 watchDebounced(clientSearch, q => fetchClients(q), { debounce: 350 })
 onMounted(() => fetchClients(''))
 
-// Création rapide d'un client
+// Création rapide d'un client (formulaire réutilisable avec CNI)
 const clientDialog = ref(false)
-const refClientForm = ref()
-const savingClient = ref(false)
-const clientForm = ref({ nom: '', telephone: '', email: '', adresse: '' })
-const clientErrors = ref({})
-
-const openClientDialog = () => {
-  clientForm.value = { nom: '', telephone: '', email: '', adresse: '' }
-  clientErrors.value = {}
-  clientDialog.value = true
-}
-const submitClient = async () => {
-  const { valid } = await refClientForm.value.validate()
-  if (!valid) return
-  savingClient.value = true
-  clientErrors.value = {}
-  try {
-    const res = await $api('/clients', { method: 'POST', body: clientForm.value })
-    const created = res?.data
-    clientItems.value = [created, ...clientItems.value]
-    selectedClient.value = created
-    clientDialog.value = false
-    notify('Client créé et sélectionné.')
-  }
-  catch (err) {
-    clientErrors.value = err?.response?._data?.errors ?? {}
-    notify(err?.response?._data?.message || 'Échec de la création.', 'error')
-  }
-  finally { savingClient.value = false }
+const onClientCreated = created => {
+  clientItems.value = [created, ...clientItems.value]
+  selectedClient.value = created
+  notify('Client créé et sélectionné.')
 }
 
 // ====================== Étape 2 : Moto ==================================
@@ -201,7 +176,7 @@ const confirmer = async () => {
                   class="flex-grow-1"
                   @update:search="clientSearch = $event"
                 />
-                <VBtn variant="tonal" prepend-icon="tabler-plus" @click="openClientDialog">
+                <VBtn variant="tonal" prepend-icon="tabler-plus" @click="clientDialog = true">
                   Nouveau client
                 </VBtn>
               </div>
@@ -334,26 +309,8 @@ const confirmer = async () => {
       </VCardText>
     </VCard>
 
-    <!-- Dialog création client -->
-    <VDialog v-model="clientDialog" max-width="520" persistent>
-      <VCard>
-        <VCardItem><VCardTitle>Nouveau client</VCardTitle></VCardItem>
-        <VCardText>
-          <VForm ref="refClientForm" @submit.prevent="submitClient">
-            <VRow>
-              <VCol cols="12"><AppTextField v-model="clientForm.nom" label="Nom complet *" :rules="[requiredValidator]" :error-messages="clientErrors.nom" /></VCol>
-              <VCol cols="12" sm="6"><AppTextField v-model="clientForm.telephone" label="Téléphone" :error-messages="clientErrors.telephone" /></VCol>
-              <VCol cols="12" sm="6"><AppTextField v-model="clientForm.email" label="E-mail" type="email" :error-messages="clientErrors.email" /></VCol>
-              <VCol cols="12"><AppTextField v-model="clientForm.adresse" label="Adresse" :error-messages="clientErrors.adresse" /></VCol>
-            </VRow>
-          </VForm>
-        </VCardText>
-        <VCardText class="d-flex justify-end gap-3">
-          <VBtn variant="tonal" color="secondary" :disabled="savingClient" @click="clientDialog = false">Annuler</VBtn>
-          <VBtn :loading="savingClient" @click="submitClient">Enregistrer</VBtn>
-        </VCardText>
-      </VCard>
-    </VDialog>
+    <!-- Dialog création client (formulaire réutilisable avec CNI) -->
+    <ClientFormDialog v-model="clientDialog" @created="onClientCreated" />
 
     <VSnackbar v-model="snackbar.show" location="top end" :color="snackbar.color" :timeout="3500">
       {{ snackbar.message }}

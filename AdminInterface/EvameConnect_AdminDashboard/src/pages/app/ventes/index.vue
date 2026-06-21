@@ -49,7 +49,10 @@ const headers = [
       >
         <template #item.date_vente="{ item }">{{ fmtDate(item.date_vente) }}</template>
         <template #item.client="{ item }">
-          <span class="font-weight-medium">{{ item.client?.nom ?? '—' }}</span>
+          <div class="font-weight-medium">{{ item.client?.nom ?? '—' }}</div>
+          <div v-if="item.client?.telephone" class="text-caption text-medium-emphasis">
+            {{ item.client.telephone }}
+          </div>
         </template>
         <template #item.moto="{ item }">{{ item.moto?.modele ?? '—' }}</template>
         <template #item.mode="{ item }">
@@ -58,7 +61,11 @@ const headers = [
           </VChip>
         </template>
         <template #item.montant="{ item }">
-          <span class="font-weight-medium">{{ fmtMoney(item.montant) }}</span>
+          <div class="font-weight-medium">{{ fmtMoney(item.montant) }}</div>
+          <div v-if="item.contrat && item.contrat.montant_restant > 0" class="text-caption text-warning">
+            Reste : {{ fmtMoney(item.contrat.montant_restant) }}
+          </div>
+          <div v-else-if="item.contrat" class="text-caption text-success">Soldé</div>
         </template>
         <template #item.commercial="{ item }">{{ item.commercial?.name ?? '—' }}</template>
         <template #no-data>
