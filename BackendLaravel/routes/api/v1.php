@@ -31,6 +31,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    // Jetons FCM (notifications push, multi-appareils)
+    Route::post('/me/fcm-token', [AuthController::class, 'registerFcmToken']);
+    Route::delete('/me/fcm-token', [AuthController::class, 'removeFcmToken']);
+
     // Module 2 — Tableau de bord Direction
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->middleware('permission:'.Permissions::VIEW_DASHBOARD);
@@ -62,6 +66,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Module 5 — SAV / interventions
     Route::get('/interventions', [InterventionController::class, 'index'])->middleware('permission:'.Permissions::VIEW_INTERVENTIONS);
+    Route::get('/technicians', [InterventionController::class, 'technicians'])->middleware('permission:'.Permissions::VIEW_INTERVENTIONS);
     Route::get('/interventions/{intervention}', [InterventionController::class, 'show'])->middleware('permission:'.Permissions::VIEW_INTERVENTIONS);
     Route::post('/interventions', [InterventionController::class, 'store'])->middleware('permission:'.Permissions::INTERVENTION_CREATE);
     Route::match(['put', 'patch'], '/interventions/{intervention}', [InterventionController::class, 'update'])->middleware('permission:'.Permissions::INTERVENTION_UPDATE);

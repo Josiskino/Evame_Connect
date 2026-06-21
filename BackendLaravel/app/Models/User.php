@@ -13,7 +13,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-#[Fillable(['name', 'email', 'password', 'telephone'])]
+#[Fillable(['name', 'email', 'password', 'telephone', 'fcm_tokens'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -35,7 +35,41 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'denied_permissions' => 'array',
+            'fcm_tokens' => 'array',
         ];
+    }
+
+    /**
+     * Jetons FCM (un par appareil).
+     *
+     * @return array<int, string>
+     */
+    public function fcmTokens(): array
+    {
+        return $this->fcm_tokens ?? [];
+    }
+
+    /** Ajoute un jeton FCM (dédupliqué) — appelé à la connexion d'un appareil. */
+    public function addFcmToken(string $token): void
+    {
+        if (trim($token) === '') {
+            return;
+        }
+
+        $tokens = $this->fcmTokens();
+        if (! in_array($token, $tokens, true)) {
+            $tokens[] = $token;
+            $this->fcm_tokens = $tokens;
+            $this->save();
+        }
+    }
+
+    /** Retire un jeton FCM (déconnexion / appareil retiré). */
+    public function removeFcmToken(string $token): void
+    {
+        $tokens = array_values(array_filter($this->fcmTokens(), fn ($t) => $t !== $token));
+        $this->fcm_tokens = $tokens;
+        $this->save();
     }
 
     /**

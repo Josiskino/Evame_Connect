@@ -22,6 +22,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'telephone' => $this->telephone,
             'roles' => $this->getRoleNames()->values(),
+            'created_at' => $this->created_at?->format('Y-m-d'),
             'permissions' => $this->getAllPermissions()->pluck('name')->values(),
             // Vues/écrans accessibles -> pilote l'affichage et le temps réel côté front
             'views' => $this->accessibleViews(),
