@@ -77,3 +77,25 @@ html {
     transform: rotate(1turn);
   }
 }
+
+/* Marque EVAME en bas de l'écran de chargement */
+.loading-brand {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  inset-block-end: 3rem;
+}
+
+.loading-brand img {
+  block-size: 44px;
+  inline-size: auto;
+}
+
+.loading-brand span {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #6b6b6b;
+}

@@ -30,8 +30,9 @@ const echeancier = computed(() => {
 })
 
 // --- Enregistrement d'un paiement ---------------------------------------
-const snackbar = ref({ show: false, message: '', color: 'success' })
-const notify = (message, color = 'success') => { snackbar.value = { show: true, message, color } }
+const { notify: pushNotif } = useNotifications()
+const notify = (message, color = 'success') =>
+  pushNotif({ message, color, title: color === 'error' ? 'Erreur' : 'Succès' })
 
 const dialog = ref(false)
 const refForm = ref()
@@ -204,8 +205,5 @@ const submit = async () => {
       </VCard>
     </VDialog>
 
-    <VSnackbar v-model="snackbar.show" location="top end" :color="snackbar.color" :timeout="3500">
-      {{ snackbar.message }}
-    </VSnackbar>
   </div>
 </template>

@@ -39,6 +39,7 @@ declare module 'vue-router/auto-routes' {
     'hs-codes': RouteRecordInfo<'hs-codes', '/hs-codes', Record<never, never>, Record<never, never>>,
     'interventions': RouteRecordInfo<'interventions', '/interventions', Record<never, never>, Record<never, never>>,
     'leasing': RouteRecordInfo<'leasing', '/leasing', Record<never, never>, Record<never, never>>,
+    'leasing-id': RouteRecordInfo<'leasing-id', '/leasing/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'login': RouteRecordInfo<'login', '/login', Record<never, never>, Record<never, never>>,
     'missions': RouteRecordInfo<'missions', '/missions', Record<never, never>, Record<never, never>>,
     'motos': RouteRecordInfo<'motos', '/motos', Record<never, never>, Record<never, never>>,
@@ -184,5 +185,6 @@ declare module 'vue-router/auto-routes' {
     'users': RouteRecordInfo<'users', '/users', Record<never, never>, Record<never, never>>,
     'vehicles': RouteRecordInfo<'vehicles', '/vehicles', Record<never, never>, Record<never, never>>,
     'ventes': RouteRecordInfo<'ventes', '/ventes', Record<never, never>, Record<never, never>>,
+    'ventes-nouvelle': RouteRecordInfo<'ventes-nouvelle', '/ventes/nouvelle', Record<never, never>, Record<never, never>>,
   }
 }

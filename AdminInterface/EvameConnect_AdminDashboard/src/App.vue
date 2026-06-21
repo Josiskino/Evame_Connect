@@ -23,6 +23,7 @@ const configStore = useConfigStore()
     <VApp :style="`--v-global-theme-primary: ${hexToRgb(global.current.value.colors.primary)}`">
       <RouterView />
       <ScrollToTop />
+      <AppNotifications />
     </VApp>
   </VLocaleProvider>
 </template>

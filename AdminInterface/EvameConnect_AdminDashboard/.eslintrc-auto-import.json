@@ -368,6 +368,7 @@
     "printAttestationDocument": true,
     "settingsTotalIsValid": true,
     "printAttestation": true,
-    "useRealtimeAccess": true
+    "useRealtimeAccess": true,
+    "useNotifications": true
   }
 }

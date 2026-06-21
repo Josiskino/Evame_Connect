@@ -10,9 +10,10 @@ const step = ref(1)
 
 const fmtMoney = n => `${new Intl.NumberFormat('fr-FR').format(Number(n ?? 0))} FCFA`
 
-// --- Notification --------------------------------------------------------
-const snackbar = ref({ show: false, message: '', color: 'success' })
-const notify = (message, color = 'success') => { snackbar.value = { show: true, message, color } }
+// --- Notification (système global avec timer) ----------------------------
+const { notify: pushNotif } = useNotifications()
+const notify = (message, color = 'success') =>
+  pushNotif({ message, color, title: color === 'error' ? 'Erreur' : 'Succès' })
 
 // ====================== Étape 1 : Client ================================
 const selectedClient = ref(null)
@@ -311,9 +312,5 @@ const confirmer = async () => {
 
     <!-- Dialog création client (formulaire réutilisable avec CNI) -->
     <ClientFormDialog v-model="clientDialog" @created="onClientCreated" />
-
-    <VSnackbar v-model="snackbar.show" location="top end" :color="snackbar.color" :timeout="3500">
-      {{ snackbar.message }}
-    </VSnackbar>
   </div>
 </template>
