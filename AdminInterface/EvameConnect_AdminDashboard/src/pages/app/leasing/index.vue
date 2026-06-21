@@ -52,7 +52,16 @@ const headers = [
   { title: 'Reste', key: 'montant_restant', align: 'end' },
   { title: 'Progression', key: 'progression' },
   { title: 'Statut', key: 'statut_paiement', align: 'center' },
+  { title: 'Contrat', key: 'actions', align: 'center', sortable: false },
 ]
+
+// Aperçu / téléchargement du contrat
+const contractDialog = ref(false)
+const contratSelectionne = ref(null)
+const openContract = item => {
+  contratSelectionne.value = item
+  contractDialog.value = true
+}
 </script>
 
 <template>
@@ -142,6 +151,11 @@ const headers = [
             {{ item.en_retard ? 'En retard' : 'À jour' }}
           </VChip>
         </template>
+        <template #item.actions="{ item }">
+          <VBtn size="small" variant="tonal" prepend-icon="tabler-file-text" @click.stop="openContract(item)">
+            Contrat
+          </VBtn>
+        </template>
         <template #no-data>
           <div class="text-center text-medium-emphasis py-8">Aucun contrat de leasing.</div>
         </template>
@@ -152,5 +166,7 @@ const headers = [
       <span class="text-body-2 text-medium-emphasis">{{ meta.from }}–{{ meta.to }} sur {{ meta.total }}</span>
       <VPagination v-model="page" :length="meta.last_page" :total-visible="5" rounded="circle" />
     </div>
+
+    <LeasingContractDialog v-model="contractDialog" :contrat="contratSelectionne" />
   </div>
 </template>

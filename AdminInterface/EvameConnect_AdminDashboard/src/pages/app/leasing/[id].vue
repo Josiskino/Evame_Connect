@@ -11,6 +11,9 @@ const canPayer = computed(() => ability.can('create', 'paiement'))
 const { data, isFetching, execute } = useApi(`/leasing/${route.params.id}`)
 const contrat = computed(() => data.value?.data ?? null)
 
+// Aperçu / téléchargement du contrat
+const contractDialog = ref(false)
+
 // Temps réel : un paiement sur ce contrat ailleurs -> rafraîchit la fiche
 const { lastActivity } = useRealtimeActivity()
 watch(lastActivity, ev => {
@@ -100,6 +103,9 @@ const submit = async () => {
           <VChip label :color="contrat.en_retard ? 'error' : 'success'">
             {{ contrat.en_retard ? 'En retard' : 'À jour' }}
           </VChip>
+          <VBtn variant="tonal" prepend-icon="tabler-file-text" @click="contractDialog = true">
+            Contrat
+          </VBtn>
           <VBtn v-if="canPayer && contrat.montant_restant > 0" prepend-icon="tabler-cash" @click="openDialog">
             Enregistrer un paiement
           </VBtn>
@@ -212,5 +218,6 @@ const submit = async () => {
       </VCard>
     </VDialog>
 
+    <LeasingContractDialog v-model="contractDialog" :contrat="contrat" />
   </div>
 </template>
