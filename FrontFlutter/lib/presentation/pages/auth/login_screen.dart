@@ -47,33 +47,38 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spaceXl),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: DesignTokens.spaceXxxl),
-              Center(child: Image.asset(AppImages.splash, height: 110)),
-              const SizedBox(height: DesignTokens.spaceL),
-              Text(
-                'Connexion technicien',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.bricolageGrotesque(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(DesignTokens.spaceXl),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 420),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Image.asset(AppImages.splash, height: 110),
+                  const SizedBox(height: DesignTokens.spaceL),
+                  Text(
+                    'Connexion technicien',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.bricolageGrotesque(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: DesignTokens.spaceXxxl),
+                  AppTextField(controller: _email, label: 'E-mail', keyboardType: TextInputType.emailAddress),
+                  const SizedBox(height: DesignTokens.spaceL),
+                  AppTextField(controller: _password, label: 'Mot de passe', obscureText: true),
+                  const SizedBox(height: DesignTokens.spaceXl),
+                  PrimaryButton(
+                    label: 'Se connecter',
+                    isLoading: state is AuthLoading,
+                    onPressed: _submit,
+                  ),
+                ],
               ),
-              const SizedBox(height: DesignTokens.spaceXxxl),
-              AppTextField(controller: _email, label: 'E-mail', keyboardType: TextInputType.emailAddress),
-              const SizedBox(height: DesignTokens.spaceL),
-              AppTextField(controller: _password, label: 'Mot de passe', obscureText: true),
-              const SizedBox(height: DesignTokens.spaceXl),
-              PrimaryButton(
-                label: 'Se connecter',
-                isLoading: state is AuthLoading,
-                onPressed: _submit,
-              ),
-            ],
+            ),
           ),
         ),
       ),
