@@ -35,6 +35,10 @@ dependencies:
   # Écran de lancement natif (image launch)
   flutter_native_splash: ^2.4.7
 
+  # Firebase (notifications push)
+  firebase_core: ^4.1.1
+  firebase_messaging: ^16.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
