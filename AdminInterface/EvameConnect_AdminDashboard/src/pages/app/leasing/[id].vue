@@ -11,6 +11,13 @@ const canPayer = computed(() => ability.can('create', 'paiement'))
 const { data, isFetching, execute } = useApi(`/leasing/${route.params.id}`)
 const contrat = computed(() => data.value?.data ?? null)
 
+// Temps réel : un paiement sur ce contrat ailleurs -> rafraîchit la fiche
+const { lastActivity } = useRealtimeActivity()
+watch(lastActivity, ev => {
+  if (ev && ['paiement', 'leasing'].includes(ev.resource) && Number(ev.id) === Number(route.params.id))
+    execute()
+})
+
 const fmtMoney = n => `${new Intl.NumberFormat('fr-FR').format(Number(n ?? 0))} FCFA`
 const fmtDate = d => (d ? new Intl.DateTimeFormat('fr-FR').format(new Date(d)) : '—')
 

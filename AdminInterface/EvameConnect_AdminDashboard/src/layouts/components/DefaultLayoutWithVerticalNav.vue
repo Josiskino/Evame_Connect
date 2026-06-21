@@ -12,10 +12,18 @@ import NavBarI18n from '@core/components/I18n.vue'
 // @layouts plugin
 import { VerticalNavLayout } from '@layouts'
 import { useRealtimeAccess } from '@/composables/useRealtimeAccess'
+import { useRealtimeActivity } from '@/composables/useRealtimeActivity'
 
 // Temps réel : met à jour droits/menu en direct (retrait de vue par l'admin)
 const { subscribe, unsubscribe } = useRealtimeAccess()
-onMounted(() => subscribe())
+
+// Temps réel : activité CRUD partagée (notifications + rafraîchissement des listes)
+const { subscribe: subscribeActivity } = useRealtimeActivity()
+
+onMounted(() => {
+  subscribe()
+  subscribeActivity()
+})
 onBeforeUnmount(() => unsubscribe())
 </script>
 

@@ -9,7 +9,13 @@ const page = ref(1)
 const perPage = ref(15)
 
 const queryUrl = computed(() => `/ventes?page=${page.value}&per_page=${perPage.value}`)
-const { data, isFetching } = useApi(queryUrl)
+const { data, isFetching, execute } = useApi(queryUrl)
+
+// Temps réel : une vente/paiement/contrat ailleurs -> rafraîchit la liste
+const { lastActivity } = useRealtimeActivity()
+watch(lastActivity, ev => {
+  if (ev && ['vente', 'paiement', 'leasing'].includes(ev.resource)) execute()
+})
 
 const ventes = computed(() => data.value?.data ?? [])
 const meta = computed(() => data.value?.meta ?? { last_page: 1, total: 0, from: 0, to: 0 })

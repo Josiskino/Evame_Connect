@@ -14,3 +14,11 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('user.{id}', function (User $user, int $id) {
     return (int) $user->id === (int) $id;
 });
+
+/*
+| Canal d'activité partagé : tout utilisateur authentifié peut l'écouter pour
+| recevoir, en temps réel, les créations/modifications/suppressions de ressources.
+*/
+Broadcast::channel('evame.activity', function (User $user) {
+    return $user !== null;
+});

@@ -9,6 +9,7 @@ use App\Actions\Leasing\ShowContratAction;
 use App\Actions\Leasing\SimulateLeasingAction;
 use App\DTOs\Leasing\CreateContratData;
 use App\DTOs\Leasing\RegisterPaiementData;
+use App\Events\ResourceChanged;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Leasing\SimulateLeasingRequest;
 use App\Http\Requests\V1\Leasing\StoreContratLeasingRequest;
@@ -34,6 +35,8 @@ class ContratLeasingController extends Controller
     {
         $contrat = $action->execute(CreateContratData::fromArray($request->validated()));
 
+        event(new ResourceChanged('leasing', 'created', $contrat->id, $contrat->client?->nom ?? 'Contrat', $request->user()));
+
         return ApiResponse::success(new ContratLeasingResource($contrat), 'Contrat créé.', 201);
     }
 
@@ -48,6 +51,9 @@ class ContratLeasingController extends Controller
             $leasing,
             RegisterPaiementData::fromArray($request->validated(), $request->user()->id)
         );
+
+        $label = ($contrat->client?->nom ?? 'Contrat').' — paiement';
+        event(new ResourceChanged('paiement', 'created', $contrat->id, $label, $request->user()));
 
         return ApiResponse::success(new ContratLeasingResource($contrat), 'Paiement enregistré.', 201);
     }

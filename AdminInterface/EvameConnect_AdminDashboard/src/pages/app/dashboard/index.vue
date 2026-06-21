@@ -11,6 +11,13 @@ const { data: response, isFetching, execute: refresh } = await useApi('/dashboar
 
 const dash = computed(() => response.value?.data ?? null)
 
+// Temps réel : toute activité métier rafraîchit les indicateurs
+const { lastActivity } = useRealtimeActivity()
+watch(lastActivity, ev => {
+  if (ev && ['vente', 'leasing', 'paiement', 'client', 'intervention'].includes(ev.resource))
+    refresh()
+})
+
 // --- Helpers d'affichage --------------------------------------------------
 const fmtMoney = n => `${new Intl.NumberFormat('fr-FR').format(Number(n ?? 0))} FCFA`
 const fmtNumber = n => new Intl.NumberFormat('fr-FR').format(Number(n ?? 0))

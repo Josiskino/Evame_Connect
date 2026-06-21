@@ -6,6 +6,7 @@ use App\Actions\Vente\CreateVenteAction;
 use App\Actions\Vente\ListVentesAction;
 use App\Actions\Vente\ShowVenteAction;
 use App\DTOs\Vente\CreateVenteData;
+use App\Events\ResourceChanged;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Vente\StoreVenteRequest;
 use App\Http\Resources\V1\VenteResource;
@@ -27,6 +28,9 @@ class VenteController extends Controller
         $vente = $action->execute(
             CreateVenteData::fromArray($request->validated(), $request->user()->id)
         );
+
+        $label = ($vente->client?->nom ?? 'Client').' — '.($vente->moto?->modele ?? 'Moto');
+        event(new ResourceChanged('vente', 'created', $vente->id, $label, $request->user()));
 
         return ApiResponse::success(new VenteResource($vente), 'Vente enregistrée.', 201);
     }

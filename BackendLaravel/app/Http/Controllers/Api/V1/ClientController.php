@@ -6,6 +6,7 @@ use App\Actions\Client\CreateClientAction;
 use App\Actions\Client\ListClientsAction;
 use App\Actions\Client\ShowClientAction;
 use App\DTOs\Client\CreateClientData;
+use App\Events\ResourceChanged;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Client\StoreClientRequest;
 use App\Http\Resources\V1\ClientResource;
@@ -34,6 +35,8 @@ class ClientController extends Controller
         }
 
         $client = $action->execute(CreateClientData::fromArray($data));
+
+        event(new ResourceChanged('client', 'created', $client->id, $client->nom, $request->user()));
 
         return ApiResponse::success(new ClientResource($client), 'Client enregistré.', 201);
     }

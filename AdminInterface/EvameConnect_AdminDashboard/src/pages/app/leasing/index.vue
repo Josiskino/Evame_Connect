@@ -18,7 +18,13 @@ const queryUrl = computed(() => {
 
 watch([enRetard, perPage], () => { page.value = 1 })
 
-const { data, isFetching } = useApi(queryUrl)
+const { data, isFetching, execute } = useApi(queryUrl)
+
+// Temps réel : contrat ou paiement ailleurs -> rafraîchit la liste
+const { lastActivity } = useRealtimeActivity()
+watch(lastActivity, ev => {
+  if (ev && ['leasing', 'paiement'].includes(ev.resource)) execute()
+})
 
 const contrats = computed(() => data.value?.data ?? [])
 const meta = computed(() => data.value?.meta ?? { last_page: 1, total: 0, from: 0, to: 0 })

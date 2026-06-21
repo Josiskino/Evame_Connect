@@ -40,6 +40,12 @@ const { notify: pushNotif } = useNotifications()
 const notify = (message, color = 'success') =>
   pushNotif({ message, color, title: color === 'error' ? 'Erreur' : 'Succès' })
 
+// --- Temps réel : rafraîchit la liste si un client change ailleurs --------
+const { lastActivity } = useRealtimeActivity()
+watch(lastActivity, ev => {
+  if (ev?.resource === 'client') execute()
+})
+
 // --- Création client (formulaire réutilisable avec CNI) ------------------
 const dialog = ref(false)
 
