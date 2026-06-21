@@ -15,7 +15,7 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(AppImages.logo, height: 88),
+            Image.asset(AppImages.splash, height: 160),
             const SizedBox(height: 32),
             const AppLoader(),
           ],

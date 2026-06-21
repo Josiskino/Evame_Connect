@@ -61,9 +61,9 @@ flutter_launcher_icons:
 # --- Écran de lancement (splash) : fond blanc, logo centré ---
 flutter_native_splash:
   color: "#FFFFFF"
-  image: assets/images/logo-evame.png
+  image: assets/images/splash-evame.png
   android_12:
-    image: assets/images/logo-evame.png
+    image: assets/images/splash-evame-android12.png
     color: "#FFFFFF"
 
 flutter:
