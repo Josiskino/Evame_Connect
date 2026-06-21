@@ -25,6 +25,27 @@ class MotoCatalogueSeeder extends Seeder
         '300CC' => [2_500_000, 3_500_000],
     ];
 
+    /** Palette de couleurs (nom => hex) pour générer les coloris de démo. */
+    private const PALETTE = [
+        'Noir' => '#1C1C1C',
+        'Rouge' => '#C62828',
+        'Bleu' => '#1565C0',
+        'Blanc' => '#ECEFF1',
+        'Gris' => '#546E7A',
+        'Vert' => '#2E7D32',
+        'Orange' => '#EF6C00',
+    ];
+
+    /** Couple de référence (démo) quand absent de la fiche, par classe. */
+    private const COUPLE = [
+        '110CC' => '8.0 N•m (4500 r/min)',
+        '115CC' => '8.4 N•m (5500 r/min)',
+        '125CC' => '9.6 N•m (6500 r/min)',
+        '150CC' => '11.4 N•m (6000 r/min)',
+        '160CC' => '14 N•m (6500 r/min)',
+        '300CC' => '27.8 N•m (6500 r/min)',
+    ];
+
     public function run(): void
     {
         $path = database_path('data/haojue_catalogue.json');
@@ -50,11 +71,11 @@ class MotoCatalogueSeeder extends Seeder
                     'modele' => $data['modele'],
                     'famille' => $data['famille'],
                     'classe_cc' => $data['classe_cc'],
-                    'couleur' => $data['couleurs'][0] ?? null,
-                    'couleurs' => $data['couleurs'] ?? [],
+                    'couleur' => null,
+                    'couleurs' => $this->demoCouleurs($data['slug']),
                     'cylindree' => $data['specifications']['moteur']['cylindree'] ?? $data['classe_cc'],
                     'puissance' => $data['puissance'] ?? null,
-                    'couple' => $data['couple'] ?? null,
+                    'couple' => $data['couple'] ?? (self::COUPLE[$data['classe_cc']] ?? null),
                     'prix' => $prix,
                     'image_url' => $imagePath,
                     'images' => $imagePath ? [$imagePath] : [],
@@ -67,6 +88,26 @@ class MotoCatalogueSeeder extends Seeder
         }
 
         $this->command?->info(count($motos).' motos du catalogue Haojue importées.');
+    }
+
+    /**
+     * Coloris de démo déterministes (2 à 3 couleurs) basés sur le slug.
+     *
+     * @return array<int, array{nom:string, hex:string}>
+     */
+    private function demoCouleurs(string $slug): array
+    {
+        $keys = array_keys(self::PALETTE);
+        $seed = crc32($slug);
+        $count = 2 + ($seed % 2);
+
+        $chosen = [];
+        for ($i = 0; $i < $count; $i++) {
+            $key = $keys[($seed + $i * 3) % count($keys)];
+            $chosen[$key] = ['nom' => $key, 'hex' => self::PALETTE[$key]];
+        }
+
+        return array_values($chosen);
     }
 
     /**

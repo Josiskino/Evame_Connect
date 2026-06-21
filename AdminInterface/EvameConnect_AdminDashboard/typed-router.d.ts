@@ -42,6 +42,7 @@ declare module 'vue-router/auto-routes' {
     'login': RouteRecordInfo<'login', '/login', Record<never, never>, Record<never, never>>,
     'missions': RouteRecordInfo<'missions', '/missions', Record<never, never>, Record<never, never>>,
     'motos': RouteRecordInfo<'motos', '/motos', Record<never, never>, Record<never, never>>,
+    'motos-id': RouteRecordInfo<'motos-id', '/motos/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'notification-channels': RouteRecordInfo<'notification-channels', '/notification-channels', Record<never, never>, Record<never, never>>,
     'notification-events': RouteRecordInfo<'notification-events', '/notification-events', Record<never, never>, Record<never, never>>,
     'notification-preferences': RouteRecordInfo<'notification-preferences', '/notification-preferences', Record<never, never>, Record<never, never>>,

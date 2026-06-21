@@ -10,9 +10,9 @@ const moto = computed(() => data.value?.data ?? null)
 const fmtMoney = n => `${new Intl.NumberFormat('fr-FR').format(Number(n ?? 0))} FCFA`
 
 const familleLabel = code => ({
-  colonne_vertebrale: 'Colonne vertébrale',
+  colonne_vertebrale: 'Routière',
   scooter: 'Scooter',
-  sous_los: "Sous l'os",
+  sous_los: 'Cub',
 }[code] ?? code)
 
 const CONSTRUCTION_LABELS = {
@@ -44,7 +44,7 @@ const rows = (specs, labels) => Object.entries(labels)
 
 <template>
   <div>
-    <VBtn variant="text" prepend-icon="tabler-arrow-left" class="mb-4" @click="router.push('/motos')">
+    <VBtn variant="text" color="secondary" prepend-icon="tabler-arrow-left" class="mb-4" @click="router.push('/motos')">
       Retour au catalogue
     </VBtn>
 
@@ -56,29 +56,33 @@ const rows = (specs, labels) => Object.entries(labels)
       <VRow>
         <!-- Image -->
         <VCol cols="12" md="6">
-          <VCard>
-            <VImg
-              :src="moto.image_url || ''"
-              height="360"
-              contain
-              class="bg-grey-lighten-4"
-            >
-              <template #placeholder>
-                <div class="d-flex align-center justify-center h-100">
-                  <VIcon icon="tabler-motorbike" size="64" class="text-disabled" />
-                </div>
-              </template>
-            </VImg>
-            <VCardText v-if="moto.images && moto.images.length > 1" class="d-flex gap-2 flex-wrap">
-              <VAvatar
-                v-for="(img, i) in moto.images"
-                :key="i"
-                rounded size="56"
-                class="bg-grey-lighten-4 border"
+          <VCard class="h-100">
+            <div class="bg-white d-flex align-center justify-center pa-4" style="block-size: 360px;">
+              <VImg
+                :src="moto.image_url || ''"
+                height="320"
+                contain
               >
-                <VImg :src="img" />
-              </VAvatar>
-            </VCardText>
+                <template #placeholder>
+                  <div class="d-flex align-center justify-center h-100">
+                    <VIcon icon="tabler-motorbike" size="64" class="text-disabled" />
+                  </div>
+                </template>
+              </VImg>
+            </div>
+            <template v-if="moto.images && moto.images.length > 1">
+              <VDivider />
+              <VCardText class="d-flex gap-2 flex-wrap">
+                <VAvatar
+                  v-for="(img, i) in moto.images"
+                  :key="i"
+                  rounded size="56"
+                  class="bg-white border"
+                >
+                  <VImg :src="img" contain />
+                </VAvatar>
+              </VCardText>
+            </template>
           </VCard>
         </VCol>
 
@@ -87,22 +91,50 @@ const rows = (specs, labels) => Object.entries(labels)
           <VCard class="h-100">
             <VCardItem>
               <VCardTitle class="text-h4 font-weight-bold">{{ moto.modele }}</VCardTitle>
-              <div class="d-flex gap-2 mt-2">
+              <div class="d-flex gap-2 mt-2 flex-wrap">
                 <VChip color="primary" label>{{ moto.classe_cc }}</VChip>
-                <VChip label variant="tonal">{{ familleLabel(moto.famille) }}</VChip>
+                <VChip label variant="tonal" color="secondary">{{ familleLabel(moto.famille) }}</VChip>
                 <VChip v-if="!moto.disponible" color="error" label>Rupture</VChip>
                 <VChip v-else-if="moto.stock_faible" color="warning" label>Stock faible</VChip>
                 <VChip v-else color="success" label>Disponible</VChip>
               </div>
             </VCardItem>
+
             <VCardText>
-              <div class="text-h4 text-primary font-weight-bold mb-4">{{ fmtMoney(moto.prix) }}</div>
-              <VRow>
-                <VCol cols="6"><div class="text-caption text-medium-emphasis">Stock</div><div class="font-weight-medium">{{ moto.stock }}</div></VCol>
-                <VCol cols="6"><div class="text-caption text-medium-emphasis">Couleur</div><div class="font-weight-medium">{{ moto.couleur || '—' }}</div></VCol>
-                <VCol cols="6"><div class="text-caption text-medium-emphasis">Puissance</div><div class="font-weight-medium">{{ moto.puissance || '—' }}</div></VCol>
-                <VCol cols="6"><div class="text-caption text-medium-emphasis">Couple</div><div class="font-weight-medium">{{ moto.couple || '—' }}</div></VCol>
+              <div class="text-h4 text-primary font-weight-bold mb-6">{{ fmtMoney(moto.prix) }}</div>
+
+              <VRow class="mb-2">
+                <VCol cols="6" sm="4">
+                  <div class="text-caption text-medium-emphasis">Stock</div>
+                  <div class="font-weight-medium">{{ moto.stock }}</div>
+                </VCol>
+                <VCol cols="6" sm="4">
+                  <div class="text-caption text-medium-emphasis">Puissance</div>
+                  <div class="font-weight-medium">{{ moto.puissance || '—' }}</div>
+                </VCol>
+                <VCol cols="6" sm="4">
+                  <div class="text-caption text-medium-emphasis">Couple</div>
+                  <div class="font-weight-medium">{{ moto.couple || '—' }}</div>
+                </VCol>
               </VRow>
+
+              <VDivider class="my-4" />
+
+              <div class="text-caption text-medium-emphasis mb-2">Coloris disponibles</div>
+              <div v-if="moto.couleurs?.length" class="d-flex gap-2 flex-wrap">
+                <div
+                  v-for="c in moto.couleurs"
+                  :key="c.hex"
+                  class="d-flex align-center gap-2 pa-1 pe-3 rounded border"
+                >
+                  <span
+                    class="d-inline-block rounded"
+                    :style="{ backgroundColor: c.hex, inlineSize: '22px', blockSize: '22px' }"
+                  />
+                  <span class="text-body-2">{{ c.nom }}</span>
+                </div>
+              </div>
+              <div v-else class="text-body-2">—</div>
             </VCardText>
           </VCard>
         </VCol>

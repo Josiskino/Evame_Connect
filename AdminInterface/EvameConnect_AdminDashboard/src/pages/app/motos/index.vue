@@ -5,10 +5,8 @@ definePage({ meta: { layout: 'default', action: 'read', subject: 'catalogue' } }
 
 const router = useRouter()
 
-// --- Vue (grille / tableau) ----------------------------------------------
 const viewMode = ref('grid')
 
-// --- Filtres + pagination ------------------------------------------------
 const page = ref(1)
 const perPage = ref(12)
 const searchRaw = ref('')
@@ -19,21 +17,19 @@ const disponible = ref(false)
 const prixMax = ref(null)
 
 const familleOptions = [
-  { title: 'Colonne vertébrale', value: 'colonne_vertebrale' },
+  { title: 'Routière', value: 'colonne_vertebrale' },
   { title: 'Scooter', value: 'scooter' },
-  { title: "Sous l'os", value: 'sous_los' },
+  { title: 'Cub', value: 'sous_los' },
 ]
 const classeOptions = ['110CC', '115CC', '125CC', '150CC', '160CC', '300CC']
 const perPageOptions = [12, 24, 48]
 
 const familleLabel = code => familleOptions.find(f => f.value === code)?.title ?? code
 
-// Retour à la page 1 dès qu'un filtre change
 watch([search, famille, classeCc, disponible, prixMax, perPage], () => {
   page.value = 1
 })
 
-// URL réactive -> useApi refetch automatiquement (pagination côté serveur)
 const queryUrl = computed(() => {
   const p = new URLSearchParams()
   p.set('page', String(page.value))
@@ -65,10 +61,11 @@ const resetFilters = () => {
 const goToDetail = id => router.push(`/motos/${id}`)
 
 const tableHeaders = [
-  { title: '', key: 'image', sortable: false, width: 72 },
+  { title: 'Photo', key: 'image', sortable: false, width: 110 },
   { title: 'Modèle', key: 'modele' },
   { title: 'Famille', key: 'famille' },
   { title: 'Classe', key: 'classe_cc' },
+  { title: 'Coloris', key: 'couleurs', sortable: false },
   { title: 'Prix', key: 'prix', align: 'end' },
   { title: 'Stock', key: 'stock', align: 'center' },
   { title: 'Statut', key: 'disponible', align: 'center' },
@@ -92,12 +89,18 @@ const tableHeaders = [
       <VBtnToggle
         v-model="viewMode"
         mandatory
-        density="comfortable"
         variant="outlined"
-        divided
+        color="primary"
+        rounded="lg"
       >
-        <VBtn value="grid" prepend-icon="tabler-layout-grid">Catalogue</VBtn>
-        <VBtn value="table" prepend-icon="tabler-list">Tableau</VBtn>
+        <VBtn value="grid" class="text-none px-4">
+          <VIcon start icon="tabler-layout-grid" />
+          Catalogue
+        </VBtn>
+        <VBtn value="table" class="text-none px-4">
+          <VIcon start icon="tabler-list" />
+          Tableau
+        </VBtn>
       </VBtnToggle>
     </div>
 
@@ -114,7 +117,7 @@ const tableHeaders = [
               clearable
             />
           </VCol>
-          <VCol cols="6" md="3">
+          <VCol cols="6" md="2">
             <AppSelect
               v-model="famille"
               label="Famille"
@@ -137,20 +140,20 @@ const tableHeaders = [
               v-model="prixMax"
               label="Prix max (FCFA)"
               type="number"
-              placeholder="Ex : 900000"
+              placeholder="900000"
               clearable
             />
           </VCol>
-          <VCol cols="6" md="1" class="d-flex align-center">
+          <VCol cols="6" md="2" class="d-flex align-center">
             <VSwitch
               v-model="disponible"
-              label="Dispo"
-              density="compact"
+              label="Disponible"
+              color="primary"
             />
           </VCol>
         </VRow>
         <div class="d-flex justify-end">
-          <VBtn variant="text" size="small" prepend-icon="tabler-refresh" @click="resetFilters">
+          <VBtn variant="text" size="small" color="secondary" prepend-icon="tabler-refresh" @click="resetFilters">
             Réinitialiser
           </VBtn>
         </div>
@@ -182,12 +185,12 @@ const tableHeaders = [
           lg="3"
         >
           <VCard class="h-100 d-flex flex-column" @click="goToDetail(moto.id)" style="cursor: pointer;">
-            <div class="position-relative">
+            <div class="position-relative bg-white">
               <VImg
                 :src="moto.image_url || ''"
-                height="170"
-                cover
-                class="bg-grey-lighten-4"
+                height="180"
+                contain
+                class="pa-2"
               >
                 <template #placeholder>
                   <div class="d-flex align-center justify-center h-100">
@@ -211,15 +214,27 @@ const tableHeaders = [
               </VChip>
             </div>
 
+            <VDivider />
+
             <VCardItem class="pb-2">
               <VCardTitle class="text-body-1 font-weight-bold">{{ moto.modele }}</VCardTitle>
-              <div class="d-flex gap-1 mt-1">
+              <div class="d-flex gap-1 mt-1 flex-wrap">
                 <VChip size="x-small" label color="primary" variant="tonal">{{ moto.classe_cc }}</VChip>
-                <VChip size="x-small" label variant="tonal">{{ familleLabel(moto.famille) }}</VChip>
+                <VChip size="x-small" label variant="tonal" color="secondary">{{ familleLabel(moto.famille) }}</VChip>
               </div>
             </VCardItem>
 
             <VCardText class="pt-0 mt-auto">
+              <!-- Coloris -->
+              <div v-if="moto.couleurs?.length" class="d-flex gap-1 mb-2">
+                <span
+                  v-for="c in moto.couleurs"
+                  :key="c.hex"
+                  :title="c.nom"
+                  class="d-inline-block rounded-sm border"
+                  :style="{ backgroundColor: c.hex, inlineSize: '16px', blockSize: '16px' }"
+                />
+              </div>
               <div class="d-flex align-center justify-space-between">
                 <span class="text-h6 text-primary font-weight-bold">{{ fmtMoney(moto.prix) }}</span>
                 <span class="text-caption text-medium-emphasis">Stock : {{ moto.stock }}</span>
@@ -240,13 +255,13 @@ const tableHeaders = [
         :items-per-page="perPage"
       >
         <template #item.image="{ item }">
-          <VAvatar rounded size="48" class="bg-grey-lighten-4 my-1">
-            <VImg :src="item.image_url || ''">
+          <div class="bg-white rounded border my-2 d-flex align-center justify-center" style="inline-size: 92px; block-size: 60px;">
+            <VImg :src="item.image_url || ''" height="56" width="88" contain>
               <template #placeholder>
                 <VIcon icon="tabler-motorbike" class="text-disabled" />
               </template>
             </VImg>
-          </VAvatar>
+          </div>
         </template>
         <template #item.modele="{ item }">
           <span class="font-weight-medium">{{ item.modele }}</span>
@@ -255,14 +270,29 @@ const tableHeaders = [
         <template #item.classe_cc="{ item }">
           <VChip size="x-small" label color="primary" variant="tonal">{{ item.classe_cc }}</VChip>
         </template>
-        <template #item.prix="{ item }">{{ fmtMoney(item.prix) }}</template>
+        <template #item.couleurs="{ item }">
+          <div class="d-flex gap-1">
+            <span
+              v-for="c in item.couleurs"
+              :key="c.hex"
+              :title="c.nom"
+              class="d-inline-block rounded-sm border"
+              :style="{ backgroundColor: c.hex, inlineSize: '14px', blockSize: '14px' }"
+            />
+          </div>
+        </template>
+        <template #item.prix="{ item }">
+          <span class="font-weight-medium">{{ fmtMoney(item.prix) }}</span>
+        </template>
         <template #item.disponible="{ item }">
           <VChip v-if="!item.disponible" color="error" size="small" label>Rupture</VChip>
           <VChip v-else-if="item.stock_faible" color="warning" size="small" label>Faible</VChip>
           <VChip v-else color="success" size="small" label>Disponible</VChip>
         </template>
         <template #item.actions="{ item }">
-          <VBtn size="small" variant="tonal" @click="goToDetail(item.id)">Détail</VBtn>
+          <VBtn size="small" variant="tonal" color="secondary" prepend-icon="tabler-eye" @click="goToDetail(item.id)">
+            Détail
+          </VBtn>
         </template>
       </VDataTable>
     </VCard>
