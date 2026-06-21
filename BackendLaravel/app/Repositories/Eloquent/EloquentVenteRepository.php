@@ -40,6 +40,14 @@ class EloquentVenteRepository implements VenteRepositoryInterface
             $query->where('mode', $filters['mode']);
         }
 
+        if (! empty($filters['date_from'])) {
+            $query->whereDate('date_vente', '>=', $filters['date_from']);
+        }
+
+        if (! empty($filters['date_to'])) {
+            $query->whereDate('date_vente', '<=', $filters['date_to']);
+        }
+
         if (! empty($filters['search'])) {
             $search = $filters['search'];
             $query->where(function ($q) use ($search) {

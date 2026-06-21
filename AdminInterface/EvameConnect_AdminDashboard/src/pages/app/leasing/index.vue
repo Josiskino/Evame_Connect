@@ -10,6 +10,8 @@ const perPage = ref(15)
 const enRetard = ref(false)
 const searchRaw = ref('')
 const search = refDebounced(searchRaw, 400)
+const dateFrom = ref('')
+const dateTo = ref('')
 
 const queryUrl = computed(() => {
   const p = new URLSearchParams()
@@ -17,11 +19,13 @@ const queryUrl = computed(() => {
   p.set('per_page', String(perPage.value))
   if (enRetard.value) p.set('en_retard', '1')
   if (search.value) p.set('search', search.value)
+  if (dateFrom.value) p.set('date_from', dateFrom.value)
+  if (dateTo.value) p.set('date_to', dateTo.value)
 
   return `/leasing?${p.toString()}`
 })
 
-watch([enRetard, perPage, search], () => { page.value = 1 })
+watch([enRetard, perPage, search, dateFrom, dateTo], () => { page.value = 1 })
 
 const { data, isFetching, execute } = useApi(queryUrl)
 
@@ -96,13 +100,19 @@ const openContract = item => {
     <VCard>
       <VCardText>
         <VRow>
-          <VCol cols="12" md="5">
+          <VCol cols="12" md="6">
             <AppTextField
               v-model="searchRaw"
               placeholder="Rechercher par client…"
               prepend-inner-icon="tabler-search"
               clearable
             />
+          </VCol>
+          <VCol cols="6" md="3">
+            <AppTextField v-model="dateFrom" label="Début depuis" type="date" clearable />
+          </VCol>
+          <VCol cols="6" md="3">
+            <AppTextField v-model="dateTo" label="Début jusqu'au" type="date" clearable />
           </VCol>
         </VRow>
       </VCardText>

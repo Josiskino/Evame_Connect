@@ -12,6 +12,8 @@ const perPage = ref(15)
 const searchRaw = ref('')
 const search = refDebounced(searchRaw, 400)
 const mode = ref(null)
+const dateFrom = ref('')
+const dateTo = ref('')
 
 const modeOptions = [
   { title: 'Tous les modes', value: null },
@@ -19,12 +21,14 @@ const modeOptions = [
   { title: 'Leasing', value: 'leasing' },
 ]
 
-watch([search, mode, perPage], () => { page.value = 1 })
+watch([search, mode, dateFrom, dateTo, perPage], () => { page.value = 1 })
 
 const filterQs = computed(() => {
   const p = new URLSearchParams()
   if (search.value) p.set('search', search.value)
   if (mode.value) p.set('mode', mode.value)
+  if (dateFrom.value) p.set('date_from', dateFrom.value)
+  if (dateTo.value) p.set('date_to', dateTo.value)
 
   return p.toString()
 })
@@ -93,7 +97,7 @@ const headers = [
     <VCard>
       <VCardText>
         <VRow>
-          <VCol cols="12" md="5">
+          <VCol cols="12" md="4">
             <AppTextField
               v-model="searchRaw"
               placeholder="Rechercher par client ou moto…"
@@ -101,8 +105,14 @@ const headers = [
               clearable
             />
           </VCol>
-          <VCol cols="12" md="4">
+          <VCol cols="12" sm="6" md="3">
             <AppSelect v-model="mode" :items="modeOptions" placeholder="Mode d'achat" />
+          </VCol>
+          <VCol cols="6" sm="3" md="2">
+            <AppTextField v-model="dateFrom" label="Date début" type="date" clearable />
+          </VCol>
+          <VCol cols="6" sm="3" md="2">
+            <AppTextField v-model="dateTo" label="Date fin" type="date" clearable />
           </VCol>
         </VRow>
       </VCardText>

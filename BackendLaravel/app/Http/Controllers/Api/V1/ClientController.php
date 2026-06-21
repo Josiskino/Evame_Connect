@@ -19,7 +19,11 @@ class ClientController extends Controller
 {
     public function index(Request $request, ListClientsAction $action): JsonResponse
     {
-        $clients = $action->execute($request->query('search'), $request->integer('per_page', 15));
+        $clients = $action->execute(
+            $request->query('search'),
+            $request->integer('per_page', 15),
+            $request->only(['date_from', 'date_to']),
+        );
 
         return ApiResponse::success(ClientResource::collection($clients));
     }

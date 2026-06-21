@@ -11,14 +11,18 @@ const page = ref(1)
 const perPage = ref(15)
 const searchRaw = ref('')
 const search = refDebounced(searchRaw, 400)
+const dateFrom = ref('')
+const dateTo = ref('')
 
-watch([search, perPage], () => { page.value = 1 })
+watch([search, dateFrom, dateTo, perPage], () => { page.value = 1 })
 
 const queryUrl = computed(() => {
   const p = new URLSearchParams()
   p.set('page', String(page.value))
   p.set('per_page', String(perPage.value))
   if (search.value) p.set('search', search.value)
+  if (dateFrom.value) p.set('date_from', dateFrom.value)
+  if (dateTo.value) p.set('date_to', dateTo.value)
 
   return `/clients?${p.toString()}`
 })
@@ -94,13 +98,19 @@ const onClientCreated = () => {
     <VCard>
       <VCardText>
         <VRow>
-          <VCol cols="12" md="5">
+          <VCol cols="12" md="6">
             <AppTextField
               v-model="searchRaw"
               placeholder="Rechercher par nom ou téléphone…"
               prepend-inner-icon="tabler-search"
               clearable
             />
+          </VCol>
+          <VCol cols="6" md="3">
+            <AppTextField v-model="dateFrom" label="Inscrit depuis" type="date" clearable />
+          </VCol>
+          <VCol cols="6" md="3">
+            <AppTextField v-model="dateTo" label="Inscrit jusqu'au" type="date" clearable />
           </VCol>
         </VRow>
       </VCardText>

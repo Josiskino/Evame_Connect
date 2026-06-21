@@ -28,6 +28,7 @@ class ContratLeasingController extends Controller
             $request->boolean('en_retard'),
             $request->integer('per_page', 15),
             $request->query('search'),
+            $request->only(['date_from', 'date_to']),
         );
 
         return ApiResponse::success(ContratLeasingResource::collection($contrats));

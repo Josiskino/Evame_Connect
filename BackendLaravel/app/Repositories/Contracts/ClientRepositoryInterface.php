@@ -7,7 +7,10 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface ClientRepositoryInterface
 {
-    public function paginate(?string $search, int $perPage = 15): LengthAwarePaginator;
+    /**
+     * @param  array<string, mixed>  $filters
+     */
+    public function paginate(?string $search, int $perPage = 15, array $filters = []): LengthAwarePaginator;
 
     /**
      * @return array<string, int>

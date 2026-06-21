@@ -19,7 +19,7 @@ class VenteController extends Controller
 {
     public function index(Request $request, ListVentesAction $action): JsonResponse
     {
-        $filters = $request->only(['search', 'mode']);
+        $filters = $request->only(['search', 'mode', 'date_from', 'date_to']);
 
         return ApiResponse::success(
             VenteResource::collection($action->execute($request->integer('per_page', 15), $filters))
@@ -28,7 +28,7 @@ class VenteController extends Controller
 
     public function stats(Request $request, GetVentesStatsAction $action): JsonResponse
     {
-        return ApiResponse::success($action->execute($request->only(['search', 'mode'])));
+        return ApiResponse::success($action->execute($request->only(['search', 'mode', 'date_from', 'date_to'])));
     }
 
     public function store(StoreVenteRequest $request, CreateVenteAction $action): JsonResponse

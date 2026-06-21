@@ -10,10 +10,12 @@ use Illuminate\Support\Collection;
 
 class EloquentContratLeasingRepository implements ContratLeasingRepositoryInterface
 {
-    public function paginate(int $perPage = 15, ?string $search = null): LengthAwarePaginator
+    public function paginate(int $perPage = 15, ?string $search = null, array $filters = []): LengthAwarePaginator
     {
         return ContratLeasing::with(['client', 'moto', 'paiements'])
             ->when($search, fn ($q) => $q->whereHas('client', fn ($c) => $c->where('nom', 'like', "%{$search}%")))
+            ->when(! empty($filters['date_from']), fn ($q) => $q->whereDate('date_debut', '>=', $filters['date_from']))
+            ->when(! empty($filters['date_to']), fn ($q) => $q->whereDate('date_debut', '<=', $filters['date_to']))
             ->latest()
             ->paginate($perPage);
     }

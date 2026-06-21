@@ -11,8 +11,11 @@ final class ListClientsAction
         private readonly ClientRepositoryInterface $clients,
     ) {}
 
-    public function execute(?string $search = null, int $perPage = 15): LengthAwarePaginator
+    /**
+     * @param  array<string, mixed>  $filters
+     */
+    public function execute(?string $search = null, int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
-        return $this->clients->paginate($search, $perPage);
+        return $this->clients->paginate($search, $perPage, $filters);
     }
 }
