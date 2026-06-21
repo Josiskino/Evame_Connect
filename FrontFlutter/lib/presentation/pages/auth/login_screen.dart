@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/constants/app_fonts.dart';
 import '../../../core/constants/app_images.dart';
 import '../../../core/constants/design_tokens.dart';
 import '../../viewmodels/auth/auth_viewmodel.dart';
@@ -61,7 +61,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   Text(
                     'Connexion technicien',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.bricolageGrotesque(
+                    style: const TextStyle(
+                      fontFamily: AppFonts.bricolage,
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                     ),

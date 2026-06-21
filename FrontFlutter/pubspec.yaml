@@ -27,7 +27,6 @@ dependencies:
   shared_preferences: ^2.5.4
 
   # UI / utilitaires
-  google_fonts: ^8.0.0
   cached_network_image: ^3.4.1
   iconsax: ^0.0.8
   intl: ^0.20.2
@@ -72,3 +71,12 @@ flutter:
 
   assets:
     - assets/images/
+
+  # Polices embarquées (titres Bricolage Grotesque, corps Inter) — variables
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter.ttf
+    - family: BricolageGrotesque
+      fonts:
+        - asset: assets/fonts/BricolageGrotesque.ttf
