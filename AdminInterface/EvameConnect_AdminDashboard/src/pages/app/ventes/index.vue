@@ -108,11 +108,8 @@ const headers = [
           <VCol cols="12" sm="6" md="3">
             <AppSelect v-model="mode" :items="modeOptions" placeholder="Mode d'achat" />
           </VCol>
-          <VCol cols="6" sm="3" md="2">
-            <AppTextField v-model="dateFrom" label="Date début" type="date" clearable />
-          </VCol>
-          <VCol cols="6" sm="3" md="2">
-            <AppTextField v-model="dateTo" label="Date fin" type="date" clearable />
+          <VCol cols="12" sm="6" md="5">
+            <DateRangeFilter v-model:from="dateFrom" v-model:to="dateTo" />
           </VCol>
         </VRow>
       </VCardText>

@@ -106,11 +106,8 @@ const onClientCreated = () => {
               clearable
             />
           </VCol>
-          <VCol cols="6" md="3">
-            <AppTextField v-model="dateFrom" label="Inscrit depuis" type="date" clearable />
-          </VCol>
-          <VCol cols="6" md="3">
-            <AppTextField v-model="dateTo" label="Inscrit jusqu'au" type="date" clearable />
+          <VCol cols="12" md="6">
+            <DateRangeFilter v-model:from="dateFrom" v-model:to="dateTo" />
           </VCol>
         </VRow>
       </VCardText>
