@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../core/constants/app_colors.dart';
@@ -47,6 +48,7 @@ class TAppTheme {
   static ThemeData get light => ThemeData(
         useMaterial3: true,
         brightness: Brightness.light,
+        fontFamily: GoogleFonts.inter().fontFamily,
         primaryColor: AppColors.primary,
         scaffoldBackgroundColor: AppColors.backgroundLight,
         colorScheme: const ColorScheme.light(
@@ -69,6 +71,7 @@ class TAppTheme {
   static ThemeData get dark => ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
+        fontFamily: GoogleFonts.inter().fontFamily,
         primaryColor: AppColors.primary,
         scaffoldBackgroundColor: AppColors.backgroundDark,
         colorScheme: const ColorScheme.dark(
