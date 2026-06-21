@@ -5,7 +5,6 @@ import 'package:iconsax/iconsax.dart';
 
 import '../../../core/constants/design_tokens.dart';
 import '../../../core/constants/routes_name.dart';
-import '../../viewmodels/auth/auth_viewmodel.dart';
 import '../../viewmodels/intervention/interventions_viewmodel.dart';
 import '../../viewmodels/intervention/state/interventions_state.dart';
 import '../../widgets/app_loader.dart';
@@ -23,15 +22,7 @@ class InterventionsScreen extends ConsumerWidget {
     final vm = ref.read(interventionsViewModelProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mes interventions'),
-        actions: [
-          IconButton(
-            icon: const Icon(Iconsax.logout),
-            onPressed: () => ref.read(authViewModelProvider.notifier).logout(),
-          ),
-        ],
-      ),
+      appBar: AppBar(title: const Text('Mes interventions')),
       body: RefreshIndicator(
         onRefresh: vm.refresh,
         child: switch (state) {

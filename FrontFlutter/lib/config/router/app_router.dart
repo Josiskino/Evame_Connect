@@ -5,7 +5,8 @@ import 'package:go_router/go_router.dart';
 import '../../core/constants/routes_name.dart';
 import '../../presentation/pages/auth/login_screen.dart';
 import '../../presentation/pages/interventions/intervention_detail_screen.dart';
-import '../../presentation/pages/interventions/interventions_screen.dart';
+import '../../presentation/pages/interventions/new_intervention_screen.dart';
+import '../../presentation/pages/main_page/main_page.dart';
 import '../../presentation/pages/splash/splash_screen.dart';
 import '../../presentation/viewmodels/auth/auth_viewmodel.dart';
 import '../../presentation/viewmodels/auth/state/auth_state.dart';
@@ -29,9 +30,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         return onLogin ? null : AppRoute.login;
       }
 
-      // Connecté -> on quitte splash/login vers la liste.
+      // Connecté -> on quitte splash/login vers la page principale.
       if (auth is Authenticated && (onLogin || onSplash)) {
-        return AppRoute.interventions;
+        return AppRoute.main;
       }
 
       return null;
@@ -39,9 +40,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     routes: [
       GoRoute(path: AppRoute.splash, builder: (_, _) => const SplashScreen()),
       GoRoute(path: AppRoute.login, builder: (_, _) => const LoginScreen()),
+      GoRoute(path: AppRoute.main, builder: (_, _) => const MainPage()),
       GoRoute(
-        path: AppRoute.interventions,
-        builder: (_, _) => const InterventionsScreen(),
+        path: AppRoute.newIntervention,
+        builder: (_, _) => const NewInterventionScreen(),
       ),
       GoRoute(
         path: AppRoute.interventionDetail,
