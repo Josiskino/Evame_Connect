@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../calendar/calendar_screen.dart';
 import '../home/home_screen.dart';
 import '../interventions/interventions_screen.dart';
 import '../profile/profile_screen.dart';
@@ -22,12 +23,14 @@ class _MainPageState extends ConsumerState<MainPage> {
 
   final List<Widget> _screens = const [
     HomeScreen(),
+    CalendarScreen(),
     InterventionsScreen(),
     ProfileScreen(),
   ];
 
   final List<CustomBottomAppBarItem> _items = const [
     CustomBottomAppBarItem(icon: Iconsax.home_2, text: 'Accueil'),
+    CustomBottomAppBarItem(icon: Iconsax.calendar_1, text: 'Calendrier'),
     CustomBottomAppBarItem(icon: Iconsax.task_square, text: 'Interventions'),
     CustomBottomAppBarItem(icon: Iconsax.user, text: 'Profil'),
   ];

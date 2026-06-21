@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../core/constants/routes_name.dart';
 import '../../presentation/pages/auth/login_screen.dart';
 import '../../presentation/pages/interventions/intervention_detail_screen.dart';
-import '../../presentation/pages/interventions/new_intervention_screen.dart';
 import '../../presentation/pages/main_page/main_page.dart';
 import '../../presentation/pages/notifications/notifications_screen.dart';
 import '../../presentation/pages/splash/splash_screen.dart';
@@ -42,10 +41,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: AppRoute.splash, builder: (_, _) => const SplashScreen()),
       GoRoute(path: AppRoute.login, builder: (_, _) => const LoginScreen()),
       GoRoute(path: AppRoute.main, builder: (_, _) => const MainPage()),
-      GoRoute(
-        path: AppRoute.newIntervention,
-        builder: (_, _) => const NewInterventionScreen(),
-      ),
       GoRoute(
         path: AppRoute.notifications,
         builder: (_, _) => const NotificationsScreen(),

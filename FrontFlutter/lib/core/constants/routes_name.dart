@@ -7,7 +7,6 @@ class AppRoute {
   static const String main = '/main';
   static const String interventions = '/interventions';
   static const String interventionDetail = '/interventions/:id';
-  static const String newIntervention = '/nouvelle-intervention';
   static const String notifications = '/notifications';
 
   /// Construit le chemin de détail d'une intervention.
