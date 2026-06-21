@@ -2,13 +2,6 @@
 import { useConfigStore } from '@core/stores/config'
 import { AppContentLayoutNav } from '@layouts/enums'
 import { switchToVerticalNavOnLtOverlayNavBreakpoint } from '@layouts/utils'
-import { useSidebarCountsStore } from '@/stores/sidebar-counts'
-
-const sidebarCounts = useSidebarCountsStore()
-onMounted(() => {
-  sidebarCounts.fetch()
-  sidebarCounts.subscribe()
-})
 
 const DefaultLayoutWithHorizontalNav = defineAsyncComponent(() => import('./components/DefaultLayoutWithHorizontalNav.vue'))
 const DefaultLayoutWithVerticalNav = defineAsyncComponent(() => import('./components/DefaultLayoutWithVerticalNav.vue'))
