@@ -71,9 +71,9 @@ const openContract = item => {
         <h4 class="text-h4 font-weight-bold">Contrats leasing</h4>
         <p class="text-medium-emphasis mb-0">{{ meta.total }} contrat(s)</p>
       </div>
-      <VBtnToggle v-model="enRetard" mandatory density="compact" color="primary" variant="outlined">
-        <VBtn :value="false">Tous</VBtn>
-        <VBtn :value="true">En retard</VBtn>
+      <VBtnToggle v-model="enRetard" mandatory color="primary" variant="outlined" :height="40">
+        <VBtn :value="false" :min-width="120">Tous</VBtn>
+        <VBtn :value="true" :min-width="140">En retard</VBtn>
       </VBtnToggle>
     </div>
 
