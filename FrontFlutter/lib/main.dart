@@ -6,12 +6,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'config/router/app_router.dart';
 import 'config/theme/theme.dart';
+import 'core/services/local_notification_service.dart';
 import 'core/services/push_notification_service.dart';
 import 'core/utils/app_logger.dart';
 
 Future<void> main() async {
   final binding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: binding);
+
+  // Notifications locales (affichage des missions / push premier plan).
+  await LocalNotificationService.instance.init();
 
   // Firebase + notifications push (échec silencieux si non configuré pour la plateforme).
   try {

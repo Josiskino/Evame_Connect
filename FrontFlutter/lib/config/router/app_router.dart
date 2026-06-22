@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/constants/routes_name.dart';
+import '../../core/utils/app_navigation.dart';
 import '../../presentation/pages/auth/login_screen.dart';
 import '../../presentation/pages/interventions/intervention_detail_screen.dart';
 import '../../presentation/pages/main_page/main_page.dart';
@@ -14,6 +15,7 @@ import '../../presentation/viewmodels/auth/state/auth_state.dart';
 /// Routeur de l'application, piloté par l'état d'authentification.
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
+    navigatorKey: rootNavigatorKey,
     initialLocation: AppRoute.splash,
     refreshListenable: _AuthListenable(ref),
     redirect: (context, state) {

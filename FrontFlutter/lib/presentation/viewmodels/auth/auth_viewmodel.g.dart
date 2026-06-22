@@ -47,7 +47,7 @@ final class AuthViewModelProvider
   }
 }
 
-String _$authViewModelHash() => r'506f3dd35f4b3f48c4ff549d83717518727e3f63';
+String _$authViewModelHash() => r'3e1c7f354410f0a664a55ff5e517133473431c9d';
 
 /// Gère l'authentification : vérification du jeton au démarrage, connexion,
 /// déconnexion. La source de vérité de l'état de session de l'app.
