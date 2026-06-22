@@ -1,7 +1,10 @@
 <script setup>
+import { VForm } from 'vuetify/components/VForm'
 import { refDebounced } from '@vueuse/core'
 
 definePage({ meta: { layout: 'default', action: 'read', subject: 'admin' } })
+
+const { notify } = useNotifications()
 
 const page = ref(1)
 const perPage = ref(15)
@@ -19,9 +22,14 @@ const queryUrl = computed(() => {
   return `/admin/users?${p.toString()}`
 })
 
-const { data, isFetching } = useApi(queryUrl)
+const { data, isFetching, execute } = useApi(queryUrl)
 
 const users = computed(() => data.value?.data ?? [])
+
+// Rôles disponibles (pour le formulaire de création)
+const { data: rolesData } = useApi('/admin/roles')
+const roleItems = computed(() =>
+  (rolesData.value?.data ?? []).map(r => ({ title: roleLabelFor(r.name), value: r.name })))
 const meta = computed(() => data.value?.meta ?? { last_page: 1, total: 0, from: 0, to: 0 })
 
 const headers = [
@@ -36,6 +44,47 @@ const roleLabel = { 'super-admin': 'Super Admin', manager: 'Manager', commercial
 const roleColor = r => ({ 'super-admin': 'error', manager: 'warning', commercial: 'info', sav: 'success' }[r] ?? 'secondary')
 
 const fmtDate = d => (d ? new Intl.DateTimeFormat('fr-FR').format(new Date(d)) : '—')
+const roleLabelFor = r => roleLabel[r] || r
+
+// --- Création d'un utilisateur ------------------------------------------
+const dialog = ref(false)
+const refForm = ref()
+const saving = ref(false)
+const fieldErrors = ref({})
+const form = ref({ name: '', email: '', password: '', telephone: '', role: null })
+
+const openCreate = () => {
+  form.value = { name: '', email: '', password: '', telephone: '', role: null }
+  fieldErrors.value = {}
+  dialog.value = true
+}
+
+const submit = async () => {
+  const { valid } = await refForm.value.validate()
+  if (!valid) return
+  saving.value = true
+  fieldErrors.value = {}
+  try {
+    await $api('/admin/users', {
+      method: 'POST',
+      body: {
+        name: form.value.name,
+        email: form.value.email,
+        password: form.value.password,
+        telephone: form.value.telephone || null,
+        roles: form.value.role ? [form.value.role] : [],
+      },
+    })
+    notify({ title: 'Succès', message: `Utilisateur « ${form.value.name} » créé.` })
+    dialog.value = false
+    execute()
+  }
+  catch (err) {
+    fieldErrors.value = err?.response?._data?.errors ?? {}
+    notify({ color: 'error', title: 'Erreur', message: err?.response?._data?.message || 'Échec de la création.' })
+  }
+  finally { saving.value = false }
+}
 </script>
 
 <template>
@@ -45,6 +94,7 @@ const fmtDate = d => (d ? new Intl.DateTimeFormat('fr-FR').format(new Date(d)) :
         <h4 class="text-h4 font-weight-bold">Utilisateurs</h4>
         <p class="text-medium-emphasis mb-0">{{ meta.total }} utilisateur(s)</p>
       </div>
+      <VBtn prepend-icon="tabler-plus" @click="openCreate">Nouvel utilisateur</VBtn>
     </div>
 
     <VCard>
@@ -98,5 +148,37 @@ const fmtDate = d => (d ? new Intl.DateTimeFormat('fr-FR').format(new Date(d)) :
       <span class="text-body-2 text-medium-emphasis">{{ meta.from }}–{{ meta.to }} sur {{ meta.total }}</span>
       <VPagination v-model="page" :length="meta.last_page" :total-visible="5" rounded="circle" />
     </div>
+
+    <!-- Dialog création utilisateur -->
+    <VDialog v-model="dialog" max-width="540" persistent>
+      <VCard>
+        <VCardItem><VCardTitle>Nouvel utilisateur</VCardTitle></VCardItem>
+        <VCardText>
+          <VForm ref="refForm" @submit.prevent="submit">
+            <VRow>
+              <VCol cols="12" sm="6">
+                <AppTextField v-model="form.name" label="Nom complet *" :rules="[requiredValidator]" :error-messages="fieldErrors.name" />
+              </VCol>
+              <VCol cols="12" sm="6">
+                <AppTextField v-model="form.telephone" label="Téléphone" :error-messages="fieldErrors.telephone" />
+              </VCol>
+              <VCol cols="12">
+                <AppTextField v-model="form.email" label="E-mail *" type="email" :rules="[requiredValidator, emailValidator]" :error-messages="fieldErrors.email" />
+              </VCol>
+              <VCol cols="12" sm="6">
+                <AppTextField v-model="form.password" label="Mot de passe *" type="password" :rules="[requiredValidator]" :error-messages="fieldErrors.password" />
+              </VCol>
+              <VCol cols="12" sm="6">
+                <AppSelect v-model="form.role" :items="roleItems" label="Rôle *" :rules="[v => !!v || 'Rôle requis']" :error-messages="fieldErrors.roles" />
+              </VCol>
+            </VRow>
+          </VForm>
+        </VCardText>
+        <VCardText class="d-flex justify-end gap-3">
+          <VBtn variant="tonal" color="secondary" :disabled="saving" @click="dialog = false">Annuler</VBtn>
+          <VBtn :loading="saving" @click="submit">Créer</VBtn>
+        </VCardText>
+      </VCard>
+    </VDialog>
   </div>
 </template>

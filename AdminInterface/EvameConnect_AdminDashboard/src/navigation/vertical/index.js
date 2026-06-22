@@ -10,6 +10,20 @@ export default [
     action: 'read',
     subject: 'dashboard',
   },
+  {
+    title: 'Stats commerciales',
+    icon: { icon: 'tabler-chart-line' },
+    to: 'stats-commercial',
+    action: 'read',
+    subject: 'dashboard',
+  },
+  {
+    title: 'Stats SAV',
+    icon: { icon: 'tabler-chart-donut' },
+    to: 'stats-sav',
+    action: 'read',
+    subject: 'dashboard',
+  },
 
   { heading: 'Commercial' },
   {
