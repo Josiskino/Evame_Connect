@@ -188,7 +188,7 @@ const submitReassign = async () => {
           <VChip size="small" label :color="statutColor(item.statut)">{{ item.statut_label }}</VChip>
         </template>
         <template #item.actions="{ item }">
-          <VBtn v-if="canCreate" size="small" variant="tonal" prepend-icon="tabler-user-check" @click="openReassign(item)">
+          <VBtn v-if="canCreate" size="small" variant="tonal" color="secondary" prepend-icon="tabler-user-check" @click="openReassign(item)">
             Réassigner
           </VBtn>
         </template>

@@ -29,7 +29,9 @@ const users = computed(() => data.value?.data ?? [])
 // Rôles disponibles (pour le formulaire de création)
 const { data: rolesData } = useApi('/admin/roles')
 const roleItems = computed(() =>
-  (rolesData.value?.data ?? []).map(r => ({ title: roleLabelFor(r.name), value: r.name })))
+  (rolesData.value?.data ?? [])
+    .filter(r => r.name !== 'super-admin')
+    .map(r => ({ title: roleLabelFor(r.name), value: r.name })))
 const meta = computed(() => data.value?.meta ?? { last_page: 1, total: 0, from: 0, to: 0 })
 
 const headers = [
