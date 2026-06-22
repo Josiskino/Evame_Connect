@@ -9,6 +9,7 @@ const ACTION_LABEL = {
   created: 'ajouté(e)',
   updated: 'modifié(e)',
   deleted: 'supprimé(e)',
+  status: '— nouvelle étape',
 }
 
 const RESOURCE_LABEL = {

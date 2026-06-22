@@ -73,7 +73,16 @@ class InterventionController extends Controller
         $updated = $action->execute($intervention, $validated);
 
         $label = ($updated->client?->nom ?? 'Client').' — '.($updated->moto?->modele ?? 'Moto');
-        event(new ResourceChanged('intervention', 'updated', $updated->id, $label, $request->user()));
+
+        // Changement de statut (souvent fait par le technicien depuis le mobile) :
+        // on précise la nouvelle étape pour que l'admin sache où en est l'intervention.
+        $action_label = 'updated';
+        if (array_key_exists('statut', $validated)) {
+            $label .= ' → '.$updated->statut_label;
+            $action_label = 'status';
+        }
+
+        event(new ResourceChanged('intervention', $action_label, $updated->id, $label, $request->user()));
 
         // (Ré)assignation explicite par l'admin -> temps réel + push au technicien.
         if (array_key_exists('technicien_id', $validated) && $updated->technicien_id) {
