@@ -36,9 +36,11 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            // Signature avec la clé debug pour l'instant (à remplacer par une clé de prod).
             signingConfig = signingConfigs.getByName("debug")
+            // Désactive R8/minification (évite l'erreur de classe manquante slf4j du SDK Pusher).
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }

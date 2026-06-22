@@ -10,3 +10,4 @@ Thumbs.db
 # .gitignore qui couvrent vendor/, node_modules/, build/, .env, etc.
 # La config VS Code de FrontFlutter (.vscode/settings.json, launch.json) est
 # volontairement conservée car elle porte le SDK Flutter géré par FVM.
+apk_mobile/

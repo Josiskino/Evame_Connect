@@ -81,6 +81,7 @@ flutter:
 
   assets:
     - assets/images/
+    - shorebird.yaml
 
   # Polices embarquées (titres Bricolage Grotesque, corps Inter) — variables
   fonts:
