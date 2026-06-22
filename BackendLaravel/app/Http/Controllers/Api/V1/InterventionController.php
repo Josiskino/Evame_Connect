@@ -16,7 +16,9 @@ use App\Http\Requests\V1\Intervention\StoreInterventionRequest;
 use App\Http\Requests\V1\Intervention\UpdateInterventionRequest;
 use App\Http\Resources\V1\InterventionResource;
 use App\Http\Resources\V1\UserResource;
+use App\Models\Intervention;
 use App\Models\User;
+use App\Services\FcmService;
 use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -36,16 +38,17 @@ class InterventionController extends Controller
         return ApiResponse::success(InterventionResource::collection($interventions));
     }
 
-    public function store(StoreInterventionRequest $request, CreateInterventionAction $action): JsonResponse
+    public function store(StoreInterventionRequest $request, CreateInterventionAction $action, FcmService $fcm): JsonResponse
     {
         $intervention = $action->execute(CreateInterventionData::fromArray($request->validated()));
 
         $label = ($intervention->client?->nom ?? 'Client').' — '.($intervention->moto?->modele ?? 'Moto');
         event(new ResourceChanged('intervention', 'created', $intervention->id, $label, $request->user()));
 
-        // Mission assignée à un technicien dès la création -> temps réel sur son app.
+        // Mission assignée à un technicien dès la création -> temps réel + push.
         if ($intervention->technicien_id) {
             event(new InterventionAssigned($intervention, $intervention->technicien_id));
+            $this->pushToTechnicien($intervention, $label, $fcm);
         }
 
         return ApiResponse::success(new InterventionResource($intervention), 'Intervention créée.', 201);
@@ -64,7 +67,7 @@ class InterventionController extends Controller
         );
     }
 
-    public function update(UpdateInterventionRequest $request, int $intervention, UpdateInterventionAction $action): JsonResponse
+    public function update(UpdateInterventionRequest $request, int $intervention, UpdateInterventionAction $action, FcmService $fcm): JsonResponse
     {
         $validated = $request->validated();
         $updated = $action->execute($intervention, $validated);
@@ -72,9 +75,10 @@ class InterventionController extends Controller
         $label = ($updated->client?->nom ?? 'Client').' — '.($updated->moto?->modele ?? 'Moto');
         event(new ResourceChanged('intervention', 'updated', $updated->id, $label, $request->user()));
 
-        // (Ré)assignation explicite par l'admin -> notification temps réel au technicien.
+        // (Ré)assignation explicite par l'admin -> temps réel + push au technicien.
         if (array_key_exists('technicien_id', $validated) && $updated->technicien_id) {
             event(new InterventionAssigned($updated, $updated->technicien_id));
+            $this->pushToTechnicien($updated, $label, $fcm);
         }
 
         return ApiResponse::success(new InterventionResource($updated), 'Intervention mise à jour.');
@@ -85,5 +89,17 @@ class InterventionController extends Controller
         $result = $action->execute($intervention, $request->validated()['contenu'], $request->user()->id);
 
         return ApiResponse::success(new InterventionResource($result), 'Commentaire ajouté.', 201);
+    }
+
+    /** Notification push FCM au technicien assigné (app fermée/arrière-plan). */
+    private function pushToTechnicien(Intervention $intervention, string $label, FcmService $fcm): void
+    {
+        $technicien = User::find($intervention->technicien_id);
+        if ($technicien) {
+            $fcm->sendToUser($technicien, 'Nouvelle mission', $label, [
+                'type' => 'intervention.assigned',
+                'intervention_id' => $intervention->id,
+            ]);
+        }
     }
 }
