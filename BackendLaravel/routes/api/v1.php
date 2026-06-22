@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\ContratLeasingController;
 use App\Http\Controllers\Api\V1\DashboardController;
 use App\Http\Controllers\Api\V1\InterventionController;
 use App\Http\Controllers\Api\V1\MotoController;
+use App\Http\Controllers\Api\V1\StatsController;
 use App\Http\Controllers\Api\V1\VenteController;
 use App\Support\Permissions;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // Module 2 — Tableau de bord Direction
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->middleware('permission:'.Permissions::VIEW_DASHBOARD);
+
+    // Statistiques décisionnelles (commercial / SAV)
+    Route::get('/stats/commercial', [StatsController::class, 'commercial'])->middleware('permission:'.Permissions::VIEW_DASHBOARD);
+    Route::get('/stats/sav', [StatsController::class, 'sav'])->middleware('permission:'.Permissions::VIEW_DASHBOARD);
 
     // Module 3 — Catalogue motos (lecture, permission uniforme -> apiResource)
     Route::apiResource('motos', MotoController::class)
@@ -80,6 +85,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/roles/{role}/permissions', [RoleController::class, 'updatePermissions']);
 
         Route::get('/users', [UserAccessController::class, 'index']);
+        Route::post('/users', [UserAccessController::class, 'store']);
         Route::post('/users/{user}/permissions', [UserAccessController::class, 'grant']);
         Route::delete('/users/{user}/permissions', [UserAccessController::class, 'revoke']);
         Route::put('/users/{user}/roles', [UserAccessController::class, 'assignRoles']);

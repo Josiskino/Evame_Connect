@@ -8,6 +8,7 @@ use App\Actions\Admin\UserAccess\ListUsersAction;
 use App\Actions\Admin\UserAccess\RevokePermissionAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\AssignRoleRequest;
+use App\Http\Requests\V1\Admin\StoreUserRequest;
 use App\Http\Requests\V1\Admin\UpdateUserAccessRequest;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
@@ -22,6 +23,22 @@ class UserAccessController extends Controller
         $users = $action->execute($request->query('search'), $request->integer('per_page', 15));
 
         return ApiResponse::success(UserResource::collection($users));
+    }
+
+    /** Crée un utilisateur (admin) et lui attribue un/des rôle(s). */
+    public function store(StoreUserRequest $request): JsonResponse
+    {
+        $data = $request->validated();
+
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => $data['password'],
+            'telephone' => $data['telephone'] ?? null,
+        ]);
+        $user->syncRoles($data['roles']);
+
+        return ApiResponse::success(new UserResource($user), 'Utilisateur créé.', 201);
     }
 
     /** Accorder une permission (vue/action) à un utilisateur -> broadcast temps réel. */
