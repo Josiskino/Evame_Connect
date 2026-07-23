@@ -6,6 +6,7 @@ use App\Repositories\Contracts\ClientAuthRepositoryInterface;
 use App\Repositories\Contracts\ClientRepositoryInterface;
 use App\Repositories\Contracts\ContratLeasingRepositoryInterface;
 use App\Repositories\Contracts\DashboardRepositoryInterface;
+use App\Repositories\Contracts\DemandeLeasingRepositoryInterface;
 use App\Repositories\Contracts\InterventionRepositoryInterface;
 use App\Repositories\Contracts\MotoRepositoryInterface;
 use App\Repositories\Contracts\OtpRepositoryInterface;
@@ -15,6 +16,7 @@ use App\Repositories\Eloquent\EloquentClientAuthRepository;
 use App\Repositories\Eloquent\EloquentClientRepository;
 use App\Repositories\Eloquent\EloquentContratLeasingRepository;
 use App\Repositories\Eloquent\EloquentDashboardRepository;
+use App\Repositories\Eloquent\EloquentDemandeLeasingRepository;
 use App\Repositories\Eloquent\EloquentInterventionRepository;
 use App\Repositories\Eloquent\EloquentMotoRepository;
 use App\Repositories\Eloquent\EloquentOtpRepository;
@@ -41,6 +43,7 @@ class RepositoryServiceProvider extends ServiceProvider
         // Espace client B2C
         OtpRepositoryInterface::class => EloquentOtpRepository::class,
         ClientAuthRepositoryInterface::class => EloquentClientAuthRepository::class,
+        DemandeLeasingRepositoryInterface::class => EloquentDemandeLeasingRepository::class,
     ];
 
     public function register(): void

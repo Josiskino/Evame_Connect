@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Admin\RoleController;
 use App\Http\Controllers\Api\V1\Admin\UserAccessController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\Client\AuthClientController;
+use App\Http\Controllers\Api\V1\Client\LeasingClientController;
 use App\Http\Controllers\Api\V1\Client\MotoClientController;
 use App\Http\Controllers\Api\V1\ClientController;
 use App\Http\Controllers\Api\V1\ContratLeasingController;
@@ -119,5 +120,11 @@ Route::prefix('client')->group(function () {
         // Module 1 — Catalogue moto (lecture)
         Route::get('/motos', [MotoClientController::class, 'index']);
         Route::get('/motos/{moto}', [MotoClientController::class, 'show']);
+
+        // Module 2 — Leasing (simulation + demande)
+        Route::post('/leasing/simulate', [LeasingClientController::class, 'simulate']);
+        Route::post('/leasing/demandes', [LeasingClientController::class, 'storeDemande']);
+        Route::get('/leasing/demandes', [LeasingClientController::class, 'indexDemandes']);
+        Route::get('/leasing/demandes/{demande}', [LeasingClientController::class, 'showDemande']);
     });
 });
