@@ -33,7 +33,7 @@ class WhatsappOtpService
                     'secret' => $secret,
                 ]);
         } catch (\Throwable $e) {
-            Log::channel('errors')->warning('OTP WhatsApp : requête échouée', [
+            Log::channel('errors')->error('OTP WhatsApp : requête échouée', [
                 'phone' => $phone,
                 'error' => $e->getMessage(),
             ]);
@@ -42,7 +42,7 @@ class WhatsappOtpService
         }
 
         if ($response->failed()) {
-            Log::channel('errors')->warning('OTP WhatsApp : réponse en erreur', [
+            Log::channel('errors')->error('OTP WhatsApp : réponse en erreur', [
                 'phone' => $phone,
                 'status' => $response->status(),
                 'body' => $response->body(),
