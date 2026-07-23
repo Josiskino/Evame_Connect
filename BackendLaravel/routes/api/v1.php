@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\Admin\UserAccessController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\Client\AuthClientController;
 use App\Http\Controllers\Api\V1\Client\CommandeClientController;
+use App\Http\Controllers\Api\V1\Client\GarageClientController;
 use App\Http\Controllers\Api\V1\Client\LeasingClientController;
 use App\Http\Controllers\Api\V1\Client\MotoClientController;
 use App\Http\Controllers\Api\V1\Client\PanierController;
@@ -143,5 +144,12 @@ Route::prefix('client')->group(function () {
         Route::get('/commandes', [CommandeClientController::class, 'index']);
         Route::post('/commandes', [CommandeClientController::class, 'store']);
         Route::get('/commandes/{commande}', [CommandeClientController::class, 'show']);
+
+        // Module 4 — Mon Garage
+        Route::get('/garage', [GarageClientController::class, 'index']);
+        Route::get('/garage/contrats/{contrat}', [GarageClientController::class, 'showContrat']);
+        Route::get('/garage/paiements', [GarageClientController::class, 'paiements']);
+        Route::get('/garage/garanties', [GarageClientController::class, 'garanties']);
+        Route::get('/garage/documents', [GarageClientController::class, 'documents']);
     });
 });

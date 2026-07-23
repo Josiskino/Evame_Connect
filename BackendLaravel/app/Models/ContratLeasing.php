@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\ContratLeasingFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,19 +11,22 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 #[Fillable([
-    'client_id', 'moto_id', 'vente_id', 'date_debut', 'duree_jours',
+    'numero', 'client_id', 'moto_id', 'vente_id', 'date_debut', 'duree_jours',
     'montant_journalier', 'montant_total', 'frequence', 'statut',
 ])]
 class ContratLeasing extends Model
 {
-    /** @use HasFactory<\Database\Factories\ContratLeasingFactory> */
+    /** @use HasFactory<ContratLeasingFactory> */
     use HasFactory;
 
     public const FREQUENCE_JOURNALIER = 'journalier';
+
     public const FREQUENCE_HEBDOMADAIRE = 'hebdomadaire';
+
     public const FREQUENCE_MENSUEL = 'mensuel';
 
     public const STATUT_A_JOUR = 'a_jour';
+
     public const STATUT_EN_RETARD = 'en_retard';
 
     protected $appends = ['montant_paye', 'montant_restant', 'progression', 'statut_paiement'];

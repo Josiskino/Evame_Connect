@@ -8,6 +8,7 @@ use App\Repositories\Contracts\CommandeRepositoryInterface;
 use App\Repositories\Contracts\ContratLeasingRepositoryInterface;
 use App\Repositories\Contracts\DashboardRepositoryInterface;
 use App\Repositories\Contracts\DemandeLeasingRepositoryInterface;
+use App\Repositories\Contracts\GarageRepositoryInterface;
 use App\Repositories\Contracts\InterventionRepositoryInterface;
 use App\Repositories\Contracts\MotoRepositoryInterface;
 use App\Repositories\Contracts\OtpRepositoryInterface;
@@ -21,6 +22,7 @@ use App\Repositories\Eloquent\EloquentCommandeRepository;
 use App\Repositories\Eloquent\EloquentContratLeasingRepository;
 use App\Repositories\Eloquent\EloquentDashboardRepository;
 use App\Repositories\Eloquent\EloquentDemandeLeasingRepository;
+use App\Repositories\Eloquent\EloquentGarageRepository;
 use App\Repositories\Eloquent\EloquentInterventionRepository;
 use App\Repositories\Eloquent\EloquentMotoRepository;
 use App\Repositories\Eloquent\EloquentOtpRepository;
@@ -53,6 +55,7 @@ class RepositoryServiceProvider extends ServiceProvider
         PieceRepositoryInterface::class => EloquentPieceRepository::class,
         PanierRepositoryInterface::class => EloquentPanierRepository::class,
         CommandeRepositoryInterface::class => EloquentCommandeRepository::class,
+        GarageRepositoryInterface::class => EloquentGarageRepository::class,
     ];
 
     public function register(): void
