@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Admin\RoleController;
 use App\Http\Controllers\Api\V1\Admin\UserAccessController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\Client\AuthClientController;
+use App\Http\Controllers\Api\V1\Client\MotoClientController;
 use App\Http\Controllers\Api\V1\ClientController;
 use App\Http\Controllers\Api\V1\ContratLeasingController;
 use App\Http\Controllers\Api\V1\DashboardController;
@@ -114,5 +115,9 @@ Route::prefix('client')->group(function () {
         Route::post('/auth/logout', [AuthClientController::class, 'logout']);
         Route::post('/fcm-token', [AuthClientController::class, 'registerFcmToken']);
         Route::delete('/fcm-token', [AuthClientController::class, 'removeFcmToken']);
+
+        // Module 1 — Catalogue moto (lecture)
+        Route::get('/motos', [MotoClientController::class, 'index']);
+        Route::get('/motos/{moto}', [MotoClientController::class, 'show']);
     });
 });

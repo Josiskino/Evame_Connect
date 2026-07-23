@@ -16,6 +16,7 @@ class EloquentMotoRepository implements MotoRepositoryInterface
             $search = $filters['search'];
             $query->where(function ($q) use ($search) {
                 $q->where('modele', 'like', "%{$search}%")
+                    ->orWhere('marque', 'like', "%{$search}%")
                     ->orWhere('couleur', 'like', "%{$search}%")
                     ->orWhere('cylindree', 'like', "%{$search}%");
             });
@@ -33,6 +34,10 @@ class EloquentMotoRepository implements MotoRepositoryInterface
             $query->where('classe_cc', $filters['classe_cc']);
         }
 
+        if (! empty($filters['marque'])) {
+            $query->where('marque', $filters['marque']);
+        }
+
         if (! empty($filters['disponible'])) {
             $query->where('stock', '>', 0);
         }
@@ -45,6 +50,10 @@ class EloquentMotoRepository implements MotoRepositoryInterface
                 'rupture' => $query->where('stock', 0),
                 default => null,
             };
+        }
+
+        if (! empty($filters['prix_min'])) {
+            $query->where('prix', '>=', (int) $filters['prix_min']);
         }
 
         if (! empty($filters['prix_max'])) {

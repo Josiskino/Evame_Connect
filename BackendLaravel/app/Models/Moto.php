@@ -2,18 +2,19 @@
 
 namespace App\Models;
 
+use Database\Factories\MotoFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
-    'slug', 'modele', 'famille', 'classe_cc', 'couleur', 'cylindree', 'puissance', 'couple',
-    'prix', 'image_url', 'images', 'couleurs', 'specifications', 'source_url', 'stock', 'seuil_alerte',
+    'slug', 'modele', 'marque', 'reference', 'famille', 'classe_cc', 'couleur', 'cylindree', 'puissance', 'couple',
+    'prix', 'leasing_eligible', 'image_url', 'images', 'couleurs', 'specifications', 'source_url', 'stock', 'seuil_alerte',
 ])]
 class Moto extends Model
 {
-    /** @use HasFactory<\Database\Factories\MotoFactory> */
+    /** @use HasFactory<MotoFactory> */
     use HasFactory;
 
     protected $appends = ['disponible', 'stock_faible'];
@@ -22,6 +23,7 @@ class Moto extends Model
     {
         return [
             'prix' => 'integer',
+            'leasing_eligible' => 'boolean',
             'stock' => 'integer',
             'seuil_alerte' => 'integer',
             'images' => 'array',
