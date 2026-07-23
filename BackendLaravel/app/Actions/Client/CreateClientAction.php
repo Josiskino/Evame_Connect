@@ -5,6 +5,7 @@ namespace App\Actions\Client;
 use App\DTOs\Client\CreateClientData;
 use App\Models\Client;
 use App\Repositories\Contracts\ClientRepositoryInterface;
+use App\Support\PhoneNormalizer;
 
 final class CreateClientAction
 {
@@ -14,6 +15,14 @@ final class CreateClientAction
 
     public function execute(CreateClientData $data): Client
     {
-        return $this->clients->create($data->toArray());
+        $payload = $data->toArray();
+
+        // Téléphone stocké au format normalisé (228XXXXXXXX) : indispensable pour
+        // que le client créé en agence puisse se connecter via l'app (login OTP).
+        if (! empty($payload['telephone'])) {
+            $payload['telephone'] = PhoneNormalizer::toInternational($payload['telephone']);
+        }
+
+        return $this->clients->create($payload);
     }
 }

@@ -2,18 +2,22 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\ClientAuthRepositoryInterface;
 use App\Repositories\Contracts\ClientRepositoryInterface;
 use App\Repositories\Contracts\ContratLeasingRepositoryInterface;
 use App\Repositories\Contracts\DashboardRepositoryInterface;
 use App\Repositories\Contracts\InterventionRepositoryInterface;
 use App\Repositories\Contracts\MotoRepositoryInterface;
+use App\Repositories\Contracts\OtpRepositoryInterface;
 use App\Repositories\Contracts\StockMovementRepositoryInterface;
 use App\Repositories\Contracts\VenteRepositoryInterface;
+use App\Repositories\Eloquent\EloquentClientAuthRepository;
 use App\Repositories\Eloquent\EloquentClientRepository;
 use App\Repositories\Eloquent\EloquentContratLeasingRepository;
 use App\Repositories\Eloquent\EloquentDashboardRepository;
 use App\Repositories\Eloquent\EloquentInterventionRepository;
 use App\Repositories\Eloquent\EloquentMotoRepository;
+use App\Repositories\Eloquent\EloquentOtpRepository;
 use App\Repositories\Eloquent\EloquentStockMovementRepository;
 use App\Repositories\Eloquent\EloquentVenteRepository;
 use Illuminate\Support\ServiceProvider;
@@ -33,6 +37,10 @@ class RepositoryServiceProvider extends ServiceProvider
         InterventionRepositoryInterface::class => EloquentInterventionRepository::class,
         DashboardRepositoryInterface::class => EloquentDashboardRepository::class,
         StockMovementRepositoryInterface::class => EloquentStockMovementRepository::class,
+
+        // Espace client B2C
+        OtpRepositoryInterface::class => EloquentOtpRepository::class,
+        ClientAuthRepositoryInterface::class => EloquentClientAuthRepository::class,
     ];
 
     public function register(): void

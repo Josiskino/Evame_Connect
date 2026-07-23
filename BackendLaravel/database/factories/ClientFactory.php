@@ -29,7 +29,8 @@ class ClientFactory extends Factory
 
         return [
             'nom' => fake()->name(),
-            'telephone' => '+228 ' . fake()->numerify('## ## ## ##'),
+            // Format normalisé (228XXXXXXXX) : identifiant de connexion OTP côté client.
+            'telephone' => '228'.fake()->unique()->numerify('########'),
             'email' => fake()->optional()->safeEmail(),
             'adresse' => fake()->randomElement(self::ADRESSES_TOGO),
             'cni_recto' => null,

@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\Admin\PermissionController;
 use App\Http\Controllers\Api\V1\Admin\RoleController;
 use App\Http\Controllers\Api\V1\Admin\UserAccessController;
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\Client\AuthClientController;
 use App\Http\Controllers\Api\V1\ClientController;
 use App\Http\Controllers\Api\V1\ContratLeasingController;
 use App\Http\Controllers\Api\V1\DashboardController;
@@ -89,5 +90,29 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/users/{user}/permissions', [UserAccessController::class, 'grant']);
         Route::delete('/users/{user}/permissions', [UserAccessController::class, 'revoke']);
         Route::put('/users/{user}/roles', [UserAccessController::class, 'assignRoles']);
+    });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Espace client B2C (application mobile)
+|--------------------------------------------------------------------------
+| Auth dédiée : téléphone + OTP WhatsApp, jetons Sanctum sur le guard `client`.
+| Isolé des routes internes ; ne passe pas par Spatie.
+*/
+Route::prefix('client')->group(function () {
+
+    // --- Public : authentification par OTP ---
+    Route::post('/auth/otp/request', [AuthClientController::class, 'requestOtp']);
+    Route::post('/auth/otp/verify', [AuthClientController::class, 'verifyOtp']);
+    Route::post('/auth/register', [AuthClientController::class, 'register']);
+
+    // --- Protégé (token client) ---
+    Route::middleware('auth:client')->group(function () {
+        Route::get('/me', [AuthClientController::class, 'me']);
+        Route::put('/me', [AuthClientController::class, 'updateProfile']);
+        Route::post('/auth/logout', [AuthClientController::class, 'logout']);
+        Route::post('/fcm-token', [AuthClientController::class, 'registerFcmToken']);
+        Route::delete('/fcm-token', [AuthClientController::class, 'removeFcmToken']);
     });
 });

@@ -18,6 +18,12 @@ return [
         'key' => env('POSTMARK_API_KEY'),
     ],
 
+    // Envoi de codes OTP par WhatsApp (API RentXcel) — cf. WhatsappOtpService.
+    'rentxcel' => [
+        'otp_url' => env('RENTXCEL_OTP_URL', 'https://prod-api-rentxcel-app.com/api/v1/send-wh-msg'),
+        'secret' => env('RENTXCEL_OTP_SECRET'),
+    ],
+
     'resend' => [
         'key' => env('RESEND_API_KEY'),
     ],
