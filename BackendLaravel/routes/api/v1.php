@@ -5,8 +5,11 @@ use App\Http\Controllers\Api\V1\Admin\RoleController;
 use App\Http\Controllers\Api\V1\Admin\UserAccessController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\Client\AuthClientController;
+use App\Http\Controllers\Api\V1\Client\CommandeClientController;
 use App\Http\Controllers\Api\V1\Client\LeasingClientController;
 use App\Http\Controllers\Api\V1\Client\MotoClientController;
+use App\Http\Controllers\Api\V1\Client\PanierController;
+use App\Http\Controllers\Api\V1\Client\PieceClientController;
 use App\Http\Controllers\Api\V1\ClientController;
 use App\Http\Controllers\Api\V1\ContratLeasingController;
 use App\Http\Controllers\Api\V1\DashboardController;
@@ -126,5 +129,19 @@ Route::prefix('client')->group(function () {
         Route::post('/leasing/demandes', [LeasingClientController::class, 'storeDemande']);
         Route::get('/leasing/demandes', [LeasingClientController::class, 'indexDemandes']);
         Route::get('/leasing/demandes/{demande}', [LeasingClientController::class, 'showDemande']);
+
+        // Module 3 — Pièces détachées + panier + commande
+        Route::get('/pieces', [PieceClientController::class, 'index']);
+        Route::get('/pieces/{piece}', [PieceClientController::class, 'show']);
+
+        Route::get('/panier', [PanierController::class, 'show']);
+        Route::post('/panier', [PanierController::class, 'store']);
+        Route::put('/panier/lignes/{ligne}', [PanierController::class, 'updateLigne']);
+        Route::delete('/panier/lignes/{ligne}', [PanierController::class, 'destroyLigne']);
+        Route::delete('/panier', [PanierController::class, 'clear']);
+
+        Route::get('/commandes', [CommandeClientController::class, 'index']);
+        Route::post('/commandes', [CommandeClientController::class, 'store']);
+        Route::get('/commandes/{commande}', [CommandeClientController::class, 'show']);
     });
 });
