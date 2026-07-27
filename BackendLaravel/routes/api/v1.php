@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Admin\RoleController;
 use App\Http\Controllers\Api\V1\Admin\UserAccessController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\Client\AuthClientController;
+use App\Http\Controllers\Api\V1\Client\CentreSavController;
 use App\Http\Controllers\Api\V1\Client\CommandeClientController;
 use App\Http\Controllers\Api\V1\Client\EntretienClientController;
 use App\Http\Controllers\Api\V1\Client\GarageClientController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Api\V1\Client\LeasingClientController;
 use App\Http\Controllers\Api\V1\Client\MotoClientController;
 use App\Http\Controllers\Api\V1\Client\PanierController;
 use App\Http\Controllers\Api\V1\Client\PanneClientController;
+use App\Http\Controllers\Api\V1\Client\RendezVousController;
 use App\Http\Controllers\Api\V1\Client\PieceClientController;
 use App\Http\Controllers\Api\V1\ClientController;
 use App\Http\Controllers\Api\V1\ContratLeasingController;
@@ -161,5 +163,12 @@ Route::prefix('client')->group(function () {
         Route::get('/interventions', [PanneClientController::class, 'index']);
         Route::post('/interventions', [PanneClientController::class, 'store']);
         Route::get('/interventions/{numeroDossier}', [PanneClientController::class, 'show']);
+
+        // Module 7 — Centres SAV + rendez-vous
+        Route::get('/centres-sav', [CentreSavController::class, 'index']);
+        Route::get('/centres-sav/{centre}/creneaux', [CentreSavController::class, 'creneaux']);
+        Route::get('/rendez-vous', [RendezVousController::class, 'index']);
+        Route::post('/rendez-vous', [RendezVousController::class, 'store']);
+        Route::get('/rendez-vous/{rendezVous}', [RendezVousController::class, 'show']);
     });
 });

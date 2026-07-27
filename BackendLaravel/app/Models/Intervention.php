@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
-    'client_id', 'moto_id', 'technicien_id', 'numero_dossier', 'probleme',
+    'client_id', 'moto_id', 'technicien_id', 'centre_sav_id', 'numero_dossier', 'probleme',
     'categorie', 'urgence', 'photo_url', 'source', 'statut', 'date_intervention',
 ])]
 class Intervention extends Model

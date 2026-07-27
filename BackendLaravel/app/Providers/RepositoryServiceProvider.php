@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\CentreSavRepositoryInterface;
 use App\Repositories\Contracts\ClientAuthRepositoryInterface;
 use App\Repositories\Contracts\ClientRepositoryInterface;
 use App\Repositories\Contracts\CommandeRepositoryInterface;
@@ -15,8 +16,10 @@ use App\Repositories\Contracts\MotoRepositoryInterface;
 use App\Repositories\Contracts\OtpRepositoryInterface;
 use App\Repositories\Contracts\PanierRepositoryInterface;
 use App\Repositories\Contracts\PieceRepositoryInterface;
+use App\Repositories\Contracts\RendezVousRepositoryInterface;
 use App\Repositories\Contracts\StockMovementRepositoryInterface;
 use App\Repositories\Contracts\VenteRepositoryInterface;
+use App\Repositories\Eloquent\EloquentCentreSavRepository;
 use App\Repositories\Eloquent\EloquentClientAuthRepository;
 use App\Repositories\Eloquent\EloquentClientRepository;
 use App\Repositories\Eloquent\EloquentCommandeRepository;
@@ -30,6 +33,7 @@ use App\Repositories\Eloquent\EloquentMotoRepository;
 use App\Repositories\Eloquent\EloquentOtpRepository;
 use App\Repositories\Eloquent\EloquentPanierRepository;
 use App\Repositories\Eloquent\EloquentPieceRepository;
+use App\Repositories\Eloquent\EloquentRendezVousRepository;
 use App\Repositories\Eloquent\EloquentStockMovementRepository;
 use App\Repositories\Eloquent\EloquentVenteRepository;
 use Illuminate\Support\ServiceProvider;
@@ -59,6 +63,8 @@ class RepositoryServiceProvider extends ServiceProvider
         CommandeRepositoryInterface::class => EloquentCommandeRepository::class,
         GarageRepositoryInterface::class => EloquentGarageRepository::class,
         EntretienRepositoryInterface::class => EloquentEntretienRepository::class,
+        CentreSavRepositoryInterface::class => EloquentCentreSavRepository::class,
+        RendezVousRepositoryInterface::class => EloquentRendezVousRepository::class,
     ];
 
     public function register(): void
