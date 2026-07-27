@@ -4,10 +4,16 @@ namespace App\Repositories\Contracts;
 
 use App\Models\Commentaire;
 use App\Models\Intervention;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 interface InterventionRepositoryInterface
 {
+    /** Dossiers SAV d'un client (espace client). */
+    public function paginateForClient(int $clientId, int $perPage = 15): LengthAwarePaginator;
+
+    public function findByNumeroForClient(string $numeroDossier, int $clientId): ?Intervention;
+
     /**
      * Liste filtrée (date du jour, statut, technicien assigné).
      *

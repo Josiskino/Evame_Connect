@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\Client\GarageClientController;
 use App\Http\Controllers\Api\V1\Client\LeasingClientController;
 use App\Http\Controllers\Api\V1\Client\MotoClientController;
 use App\Http\Controllers\Api\V1\Client\PanierController;
+use App\Http\Controllers\Api\V1\Client\PanneClientController;
 use App\Http\Controllers\Api\V1\Client\PieceClientController;
 use App\Http\Controllers\Api\V1\ClientController;
 use App\Http\Controllers\Api\V1\ContratLeasingController;
@@ -155,5 +156,10 @@ Route::prefix('client')->group(function () {
 
         // Module 5 — Entretien (rappels)
         Route::get('/entretiens', [EntretienClientController::class, 'index']);
+
+        // Modules 6 & 8 — Déclaration de panne + suivi du dossier SAV
+        Route::get('/interventions', [PanneClientController::class, 'index']);
+        Route::post('/interventions', [PanneClientController::class, 'store']);
+        Route::get('/interventions/{numeroDossier}', [PanneClientController::class, 'show']);
     });
 });

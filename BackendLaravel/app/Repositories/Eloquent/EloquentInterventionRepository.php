@@ -5,11 +5,28 @@ namespace App\Repositories\Eloquent;
 use App\Models\Commentaire;
 use App\Models\Intervention;
 use App\Repositories\Contracts\InterventionRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 class EloquentInterventionRepository implements InterventionRepositoryInterface
 {
+    public function paginateForClient(int $clientId, int $perPage = 15): LengthAwarePaginator
+    {
+        return Intervention::where('client_id', $clientId)
+            ->with('moto')
+            ->latest('id')
+            ->paginate($perPage);
+    }
+
+    public function findByNumeroForClient(string $numeroDossier, int $clientId): ?Intervention
+    {
+        return Intervention::where('numero_dossier', $numeroDossier)
+            ->where('client_id', $clientId)
+            ->with('moto')
+            ->first();
+    }
+
     public function list(array $filters, ?int $technicienId = null): Collection
     {
         $query = Intervention::with(['client', 'moto', 'technicien']);
