@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\Admin\UserAccessController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\Client\AuthClientController;
 use App\Http\Controllers\Api\V1\Client\CommandeClientController;
+use App\Http\Controllers\Api\V1\Client\EntretienClientController;
 use App\Http\Controllers\Api\V1\Client\GarageClientController;
 use App\Http\Controllers\Api\V1\Client\LeasingClientController;
 use App\Http\Controllers\Api\V1\Client\MotoClientController;
@@ -151,5 +152,8 @@ Route::prefix('client')->group(function () {
         Route::get('/garage/paiements', [GarageClientController::class, 'paiements']);
         Route::get('/garage/garanties', [GarageClientController::class, 'garanties']);
         Route::get('/garage/documents', [GarageClientController::class, 'documents']);
+
+        // Module 5 — Entretien (rappels)
+        Route::get('/entretiens', [EntretienClientController::class, 'index']);
     });
 });
